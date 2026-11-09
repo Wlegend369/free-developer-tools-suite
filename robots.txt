@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://devtools-hub-2026.pages.dev/sitemap.xml

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free JSON to TypeScript Interface & Zod Schema Converter Online (2026)</title>
+  <meta name="description" content="Instantly convert raw JSON payloads into strict TypeScript interfaces and runtime Zod validation schemas in your browser. 100% client-side privacy." />
+  <meta name="keywords" content="json to typescript, json to zod schema, typescript interface generator, free developer tools" />
+  <meta property="og:title" content="Free JSON to TypeScript Interface & Zod Schema Converter Online (2026)" />
+  <meta property="og:description" content="Instantly convert raw JSON payloads into strict TypeScript interfaces and runtime Zod validation schemas in your browser. 100% client-side privacy." />
+  <meta property="og:type" content="website" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Free JSON to TypeScript Interface & Zod Schema Converter Online (2026)", "applicationCategory": "DeveloperApplication", "operatingSystem": "All", "offers": {"@type": "Offer", "price": "0.00", "priceCurrency": "USD"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is my JSON data sent to any server?", "acceptedAnswer": {"@type": "Answer", "text": "No. 100% of the JSON parsing and TypeScript/Zod AST generation happens locally inside your browser using JavaScript."}}, {"@type": "Question", "name": "Why use Zod alongside TypeScript?", "acceptedAnswer": {"@type": "Answer", "text": "TypeScript only validates types at compile time. Zod guarantees runtime payload safety for API responses and webhook forms."}}]}</script>
+  <style>
+    :root { --bg:#090d16; --card:#131b2e; --border:#243252; --accent:#38bdf8; --gold:#f5be41; --text:#f1f5f9; }
+    * { box-sizing:border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { margin:0; background:var(--bg); color:var(--text); line-height:1.6; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 28px 20px; }
+    .ad-banner { background:linear-gradient(90deg,#1e293b,#0f172a); border:1px dashed var(--gold); border-radius:10px; padding:12px 18px; margin-bottom:22px; display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+    .ad-banner a { background:var(--gold); color:#090d16; padding:6px 14px; border-radius:6px; text-decoration:none; font-weight:bold; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:20px 0; }
+    @media(max-width:800px){ .grid { grid-template-columns:1fr; } }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; }
+    textarea { width:100%; height:240px; background:#070a12; color:#38bdf8; border:1px solid var(--border); border-radius:10px; padding:12px; font-family:Consolas,monospace; font-size:13px; }
+    button { background:var(--accent); color:#090d16; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px; margin-right:8px; }
+    .faq-item { border-bottom:1px solid var(--border); padding:12px 0; }
+    .seo-article { color:#cbd5e1; font-size:14px; white-space:pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Affiliate / AdSense Monetization Slot -->
+    <div class="ad-banner">
+      <span>🚀 <b>Pro Developer Bundle:</b> Get our 50+ Offline AI & Data Automation Micro-Tools + Prompt Bible!</span>
+      <a href="https://gumroad.com/" target="_blank" rel="noopener">Download Full Pack ($19) →</a>
+    </div>
+
+    <h1>⚡ JSON to TypeScript & Zod Schema Generator</h1>
+    <p style="color:#94a3b8;margin-top:-8px;">Instantly convert raw JSON payloads into strict TypeScript interfaces and runtime Zod validation schemas in your browser. 100% client-side privacy.</p>
+
+    <div class="grid">
+      <div class="card">
+        <label style="font-weight:bold;display:block;margin-bottom:8px;">Input Payload / Expression:</label>
+        <textarea id="inputBox" oninput="runTool()">{
+  "userId": 1024,
+  "username": "indie_hacker",
+  "isPro": true,
+  "tags": ["ai", "saas"],
+  "payoutUsd": 49.95
+}</textarea>
+        <button onclick="runTool()">⚡ Run Instant Conversion</button>
+      </div>
+      <div class="card">
+        <label style="font-weight:bold;display:block;margin-bottom:8px;">Generated Output (Click to Copy):</label>
+        <textarea id="outputBox" readonly></textarea>
+        <button onclick="navigator.clipboard.writeText(document.getElementById('outputBox').value)" style="background:var(--gold);">📋 Copy Output</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h2 style="margin-top:0;color:var(--accent);">📖 Developer Guide & Best Practices</h2>
+      <div class="seo-article">Client-side developer web utilities guarantee 100% data privacy and instant execution with zero server logs.</div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h2 style="margin-top:0;color:var(--gold);">❓ Frequently Asked Questions (FAQ)</h2>
+      <div class="faq-item"><h4>Q: Is my JSON data sent to any server?</h4><p>No. 100% of the JSON parsing and TypeScript/Zod AST generation happens locally inside your browser using JavaScript.</p></div><div class="faq-item"><h4>Q: Why use Zod alongside TypeScript?</h4><p>TypeScript only validates types at compile time. Zod guarantees runtime payload safety for API responses and webhook forms.</p></div>
+    </div>
+
+    <footer style="text-align:center;color:#64748b;font-size:13px;margin-top:32px;">
+      Powered by Programmatic SEO Micro-Tools Matrix · 100% Client-Side Execution · Zero Server Logs
+    </footer>
+  </div>
+  <script>
+    
+function runTool() {
+  const raw = document.getElementById('inputBox').value;
+  try {
+    const obj = JSON.parse(raw);
+    let ts = "export interface RootObject {\n";
+    let zod = "import { z } from 'zod';\n\nexport const RootSchema = z.object({\n";
+    for (const [k, v] of Object.entries(obj)) {
+      const t = Array.isArray(v) ? (typeof (v[0]||'string')) + '[]' : typeof v;
+      ts += `  ${k}: ${t};\n`;
+      if (Array.isArray(v)) zod += `  ${k}: z.array(z.${typeof (v[0]||'string')}()),\n`;
+      else zod += `  ${k}: z.${typeof v}(),\n`;
+    }
+    ts += "}\n";
+    zod += "});\n\nexport type RootType = z.infer<typeof RootSchema>;";
+    document.getElementById('outputBox').value = "// === TypeScript Interface ===\n" + ts + "\n// === Zod Validation Schema ===\n" + zod;
+  } catch (e) {
+    document.getElementById('outputBox').value = "// Invalid JSON: " + e.message;
+  }
+}
+
+    runTool();
+  </script>
+</body>
+</html>
