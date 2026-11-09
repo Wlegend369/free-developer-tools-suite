@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 .cursorrules, CLAUDE.md & MCP Server Config Generator | Free Developer Suite</title>
+<meta name="description" content="Instantly generate production-ready .cursorrules, .windsurfrules, CLAUDE.md and mcp.json configurations for Next.js 15, FastAPI, Rust, Go, Supabase & Playwright. 100% client-side.">
+<style>
+  body{font-family:system-ui,-apple-system,sans-serif;background:#0b0f19;color:#f1f5f9;margin:0;padding:24px;line-height:1.6}
+  .container{max-width:1080px;margin:0 auto}
+  .card{background:#131b2e;border:1px solid #1e293b;border-radius:12px;padding:20px;margin-bottom:20px}
+  h1{color:#38bdf8;margin-top:0}
+  select,textarea,button{background:#0f172a;color:#f1f5f9;border:1px solid #334155;border-radius:8px;padding:10px 14px;font-size:14px}
+  button{background:#2563eb;border:none;cursor:pointer;font-weight:600}
+  button:hover{background:#1d4ed8}
+  textarea{width:100%;height:260px;font-family:monospace;margin-top:12px}
+  .cta{background:linear-gradient(135deg,#1e1b4b,#311042);border:1px solid #a855f7;border-radius:12px;padding:18px;margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  .cta a{background:#a855f7;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+  <p><a href="../index.html" style="color:#38bdf8;text-decoration:none;">← Back to 12-Tool Developer Hub</a></p>
+  <div class="card">
+    <h1>⚡ 2026 .cursorrules, CLAUDE.md & MCP Server Config Generator</h1>
+    <p>Select your tech stack and AI agent workflow to generate strict, zero-hallucination <code>.cursorrules</code>, <code>CLAUDE.md</code>, and <code>mcp.json</code> configs in your browser.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+      <select id="stack">
+        <option value="nextjs">Next.js 15 App Router + TypeScript + Tailwind + Zod</option>
+        <option value="fastapi">Python FastAPI + Async SQLAlchemy + Pydantic v2 + Pytest</option>
+        <option value="rust">Rust Axum + Tokio + SQLx + Zero-Copy Architecture</option>
+        <option value="fullstack_ai">Multi-Agent LLM Orchestrator + MCP Server + Cloudflare Workers</option>
+      </select>
+      <select id="format">
+        <option value="cursorrules">.cursorrules / .windsurfrules</option>
+        <option value="claudemd">CLAUDE.md (Claude Code Agent Rules)</option>
+        <option value="mcpjson">mcp.json (Model Context Protocol Config)</option>
+      </select>
+      <button onclick="generateConfig()">Generate Config ⚡</button>
+      <button onclick="navigator.clipboard.writeText(document.getElementById('out').value)">Copy to Clipboard 📋</button>
+    </div>
+    <textarea id="out" readonly></textarea>
+  </div>
+  <div class="cta">
+    <div>
+      <strong>🔥 Want 50+ Battle-Tested System Prompts, Full MCP Templates & Programmatic SEO Scripts?</strong>
+      <div style="color:#cbd5e1;font-size:14px;">Download the Solo-Founder AI & SaaS Automation Toolkit Pro (2026 Edition)</div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank">Get Pro Bundle ($19) ↗</a>
+      <a href="../downloads/Solo_Founder_AI_and_SEO_Toolkit_Pro_2026.zip" style="background:#0284c7;">Direct Starter ZIP ↗</a>
+    </div>
+  </div>
+</div>
+<script>
+const TEMPLATES = {
+  nextjs: `# 2026 Next.js 15 + TypeScript + Zod Strict Agent Rules
+- Always use TypeScript strict mode, functional components, and Server Actions by default.
+- Validate every external payload and route parameter using Zod schemas.
+- Never leak secrets to client components; prefix public env vars with NEXT_PUBLIC_ only when strictly required.
+- Write deterministic Vitest unit tests and Playwright E2E assertions for all critical flows.`,
+  fastapi: `# 2026 Python FastAPI + Pydantic v2 + Async Httpx Agent Rules
+- Use Pydantic v2 BaseModel with strict type annotations and Field constraints.
+- Prefer async/await endpoints with httpx.AsyncClient(trust_env=False) and connection pooling.
+- Never block the event loop with synchronous I/O; use anyio.to_thread.run_sync if needed.
+- Include pytest-asyncio test coverage for all API routes.`,
+  rust: `# 2026 Rust Axum + Tokio High-Performance Agent Rules
+- Forbid unsafe blocks unless explicitly justified; prefer borrowing and zero-copy slices.
+- Use thiserror for library errors and anyhow for application boundaries.
+- Instrument async spans with tracing::instrument.`,
+  fullstack_ai: `# 2026 Multi-Agent Orchestrator & MCP Protocol Rules
+- Enforce Map-Reduce-Verify orchestration: run deterministic 0-token validators before escalating to frontier reasoning models.
+- Isolate sub-agent workspaces and persist session state in WAL-enabled SQLite.`
+};
+function generateConfig(){
+  const s = document.getElementById('stack').value;
+  const f = document.getElementById('format').value;
+  if(f === 'mcpjson'){
+    document.getElementById('out').value = JSON.stringify({
+      mcpServers: {
+        "filesystem": { command: "npx", args: ["-y", "@modelcontextprotocol/server-filesystem", "./"] },
+        "github": { command: "npx", args: ["-y", "@modelcontextprotocol/server-github"] },
+        "postgres": { command: "npx", args: ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/db"] }
+      }
+    }, null, 2);
+  } else if (f === 'claudemd') {
+    document.getElementById('out').value = "# CLAUDE.md - Project Engineering Constitution\n\n" + TEMPLATES[s] + "\n\n## Commands\n- Test: `npm test` / `pytest -q`\n- Lint: `ruff check .` / `tsc --noEmit`";
+  } else {
+    document.getElementById('out').value = TEMPLATES[s];
+  }
+}
+generateConfig();
+</script>
+</body>
+</html>
