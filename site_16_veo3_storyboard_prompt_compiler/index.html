@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veo 3 & Flow Cinematic Camera Prompt Compiler | Gen-Video Tool</title>
+    <meta name="description" content="Generate Hollywood-grade structured JSON and natural-language shot lists for Google Veo and Flow. Optimize focal lengths, dolly motions, lighting LUTs, and audio cues instantly.">
+    <meta name="keywords" content="Veo 3, Google Flow, AI Video Prompt Generator, Cinematic Camera Prompt, Generative Video Production, Video LUTs, AI Shot List">
+    <link rel="canonical" href="https://example.com/veo-flow-prompt-compiler">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Veo 3 & Flow Cinematic Camera Prompt Compiler">
+    <meta property="og:description" content="Build structured JSON & natural-language shot lists for Google Flow & Veo with advanced camera mechanics and lighting.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/veo-flow-prompt-compiler">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#090a0f',
+                            800: '#13151f',
+                            700: '#1d2030',
+                            600: '#2d324d',
+                        },
+                        accent: {
+                            DEFAULT: '#6366f1',
+                            hover: '#4f46e5',
+                            glow: 'rgba(99, 102, 241, 0.15)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Veo 3 & Flow Cinematic Camera Prompt Compiler",
+      "operatingSystem": "All",
+      "applicationCategory": "MultimediaApplication",
+      "description": "Professional prompt compiler for Google Veo and Flow generative video models, combining camera parameters, lighting LUTs, and spatial audio cues.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="bg-dark-900 text-slate-100 min-h-screen font-sans selection:bg-accent selection:text-white">
+
+    <!-- Top CTA Banner -->
+    <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-dark-800 border-b border-indigo-500/20 px-4 py-2.5 text-center text-xs sm:text-sm font-medium">
+        <span class="inline-block bg-accent/20 text-indigo-300 px-2 py-0.5 rounded-full text-xs font-semibold mr-2 border border-accent/30">PRO TOOLKIT</span>
+        Build and scale your AI video workflow. 
+        <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener" class="underline underline-offset-4 font-bold text-white hover:text-indigo-200 ml-1 inline-flex items-center gap-1">
+            Get the AI SaaS Toolkit 2026 &rarr;
+        </a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent mb-3">
+                Veo 3 & Flow Cinematic Prompt Compiler
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                Engineer exact camera kinematics, lighting LUT profiles, and spatial audio architectures for Google Veo & Flow video generation pipelines.
+            </p>
+        </header>
+
+        <!-- Tool Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Controls Form (Left Column) -->
+            <div class="lg:col-span-6 bg-dark-800 border border-dark-700 rounded-2xl p-6 shadow-xl space-y-6">
+                <div class="flex items-center justify-between border-b border-dark-700 pb-4">
+                    <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                        Shot Parameters
+                    </h2>
+                    <button id="preset-btn" class="text-xs bg-dark-700 hover:bg-dark-600 text-indigo-300 px-3 py-1.5 rounded-lg font-medium transition border border-dark-600">
+                        Load Cyberpunk Preset
+                    </button>
+                </div>
+
+                <!-- Core Subject -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Core Subject & Action</label>
+                    <textarea id="input-subject" rows="2" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition" placeholder="e.g., A lone cyborg botanist inspecting glowing flora inside an abandoned greenhouse..."></textarea>
+                </div>
+
+                <!-- Camera & Lens -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Focal Length & Lens</label>
+                        <select id="input-lens" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition">
+                            <option value="18mm Ultra-Wide Anamorphic">18mm Ultra-Wide (Dramatic Distortion)</option>
+                            <option value="24mm Cinematic Wide">24mm Cinematic Wide (Environmental)</option>
+                            <option value="35mm Documentary Prime">35mm Documentary Prime (Natural)</option>
+                            <option value="50mm Standard Portrait" selected>50mm Standard Prime (Human Eye)</option>
+                            <option value="85mm Portrait Telephoto">85mm Telephoto (Compressed Bokeh)</option>
+                            <option value="200mm Macro Telephoto">200mm Macro Telephoto (Extreme Isolate)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Camera Motion / Dolly</label>
+                        <select id="input-motion" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition">
+                            <option value="Slow Push-In (Creeping Tension)" selected>Slow Push-In (Tension)</option>
+                            <option value="Rapid Dolly-Out Reveal">Rapid Dolly-Out Reveal</option>
+                            <option value="360 Orbit Tracking Shot">360° Orbit Tracking</option>
+                            <option value="Steadicam Low-Angle Drift">Steadicam Low-Angle Drift</option>
+                            <option value="FPV Drone Dynamic Dive">FPV Drone Dynamic Dive</option>
+                            <option value="Locked Tripod Static">Locked Tripod Static</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Lighting & Color Grade -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Lighting & LUT Profile</label>
+                        <select id="input-lighting" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition">
+                            <option value="Cyberpunk Neon Cyan & Amber Glow">Cyberpunk Neon (Cyan/Amber)</option>
+                            <option value="Blade Runner Teal & Orange Grade" selected>Blade Runner Teal & Orange</option>
+                            <option value="Natural Golden Hour Diffused">Golden Hour Soft Diffused</option>
+                            <option value="Noir High-Contrast Chiaroscuro">Noir High-Contrast Chiaroscuro</option>
+                            <option value="Clinical Sterile White Lab Lighting">Clinical Sterile White</option>
+                            <option value="Moody Overcast Rim Lighting">Moody Overcast Rim Light</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Aspect Ratio</label>
+                        <select id="input-aspect" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition">
+                            <option value="2.39:1 Cinemascope" selected>2.39:1 Cinemascope</option>
+                            <option value="1.85:1 Widescreen">1.85:1 Widescreen</option>
+                            <option value="16:9 Standard UHD">16:9 Standard UHD</option>
+                            <option value="9:16 Vertical Reel">9:16 Vertical Reel</option>
+                            <option value="1:1 Square Post">1:1 Square Post</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Audio Cues & Engine Target -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Spatial Audio Cue</label>
+                        <input type="text" id="input-audio" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition" value="Low sub-bass drone, distant metallic echoes, soft mechanical whirring">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Target Engine</label>
+                        <select id="input-engine" class="w-full bg-dark-900 border border-dark-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-accent transition">
+                            <option value="Google Veo 3 Cinematic Mode">Google Veo 3 (Cinematic)</option>
+                            <option value="Google Flow Gen-Pipeline">Google Flow Engine</option>
+                            <option value="Universal Gen-Video Standard">Universal Standard</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Preview & Compiler (Right Column) -->
+            <div class="lg:col-span-6 space-y-6">
+                
+                <!-- Natural Language Prompt Output Card -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 shadow-xl relative">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Natural Language Master Prompt
+                        </span>
+                        <button onclick="copyToClipboard('natural-output', this)" class="text-xs bg-accent hover:bg-accent-hover text-white px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1 shadow-sm">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                            Copy Prompt
+                        </button>
+                    </div>
+                    <div class="bg-dark-900 border border-dark-700/60 rounded-xl p-4 font-mono text-xs sm:text-sm text-slate-300 leading-relaxed min-h-[100px] select-all" id="natural-output">
+                        Generating...
+                    </div>
+                </div>
+
+                <!-- Structured JSON Schema Output Card -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 shadow-xl relative">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                            Structured JSON Payload
+                        </span>
+                        <button onclick="copyToClipboard('json-output', this)" class="text-xs bg-accent hover:bg-accent-hover text-white px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1 shadow-sm">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                            Copy JSON
+                        </button>
+                    </div>
+                    <pre class="bg-dark-900 border border-dark-700/60 rounded-xl p-4 font-mono text-xs text-indigo-200 overflow-x-auto max-h-[220px] select-all" id="json-output">Generating...</pre>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Conversion Footer CTA Banner -->
+        <section class="mt-16 bg-gradient-to-r from-dark-800 via-indigo-950/40 to-dark-800 border border-indigo-500/30 rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Scale Your AI Video Production Workflow</h2>
+            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base mb-6">
+                Unlock 50+ enterprise-grade generative video prompt templates, automated batch JSON compilers, and director toolkits built for Veo & Flow.
+            </p>
+            <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-accent to-indigo-600 hover:from-accent-hover hover:to-indigo-500 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-indigo-500/25 transition transform hover:-translate-y-0.5">
+                Get AI SaaS Toolkit 2026 ($12.90 Value)
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+        </section>
+
+    </div>
+
+    <!-- Interactive Compiler Logic -->
+    <script>
+        const subjectInput = document.getElementById('input-subject');
+        const lensInput = document.getElementById('input-lens');
+        const motionInput = document.getElementById('input-motion');
+        const lightingInput = document.getElementById('input-lighting');
+        const aspectInput = document.getElementById('input-aspect');
+        const audioInput = document.getElementById('input-audio');
+        const engineInput = document.getElementById('input-engine');
+        
+        const naturalOutput = document.getElementById('natural-output');
+        const jsonOutput = document.getElementById('json-output');
+        const presetBtn = document.getElementById('preset-btn');
+
+        const presets = [
+            {
+                subject: "A sleek cyberpunk courier on a hovering motorcycle cutting through neon-drenched Tokyo alleys at midnight.",
+                lens: "35mm Documentary Prime",
+                motion: "Rapid Dolly-Out Reveal",
+                lighting: "Cyberpunk Neon Cyan & Amber Glow",
+                aspect: "2.39:1 Cinemascope",
+                audio: "Heavy synth bassline, rain patter on pavement, distant police sirens.",
+                engine: "Google Veo 3 Cinematic Mode"
+            },
+            {
+                subject: "An ancient stone monolith activating under a total solar eclipse, emitting ethereal energy rings.",
+                lens: "18mm Ultra-Wide Anamorphic",
+                motion: "Slow Push-In (Creeping Tension)",
+                lighting: "Blade Runner Teal & Orange Grade",
+                aspect: "2.39:1 Cinemascope",
+                audio: "Low frequency atmospheric hum, resonating crystal chime.",
+                engine: "Google Flow Gen-Pipeline"
+            }
+        ];
+
+        let currentPresetIdx = 0;
+
+        function compilePrompt() {
+            const subject = subjectInput.value.trim() || "Cinematic scene featuring an expressive character in a highly detailed environment.";
+            const lens = lensInput.value;
+            const motion = motionInput.value;
+            const lighting = lightingInput.value;
+            const aspect = aspectInput.value;
+            const audio = audioInput.value.trim();
+            const engine = engineInput.value;
+
+            // Build Natural Language String
+            const naturalString = `[Engine: ${engine}] Shot on ${lens}. Camera motion: ${motion}. Lighting & color grade: ${lighting}. Aspect ratio: ${aspect}. Subject description: ${subject}. Audio cues: "${audio}". High fidelity, cinematic depth of field, photorealistic render, 4k master.`;
+            naturalOutput.textContent = naturalString;
+
+            // Build Structured JSON Payload
+            const payload = {
+                engine: engine,
+                metadata: {
+                    version: "3.2",
+                    timestamp: new Date().toISOString()
+                },
+                camera: {
+                    focalLength: lens,
+                    motionKinematics: motion,
+                    aspectRatio: aspect
+                },
+                environment: {
+                    lightingLUT: lighting,
+                    subjectAction: subject
+                },
+                audioLayer: {
+                    spatialCues: audio,
+                    mixLevel: "Standard Dolby Atmos"
+                }
+            };
+            jsonOutput.textContent = JSON.stringify(payload, null, 2);
+        }
+
+        // Event Listeners for Live Computation
+        [subjectInput, lensInput, motionInput, lightingInput, aspectInput, audioInput, engineInput].forEach(element => {
+            element.addEventListener('input', compilePrompt);
+            element.addEventListener('change', compilePrompt);
+        });
+
+        // Preset Button Handler
+        presetBtn.addEventListener('click', () => {
+            const p = presets[currentPresetIdx];
+            subjectInput.value = p.subject;
+            lensInput.value = p.lens;
+            motionInput.value = p.motion;
+            lightingInput.value = p.lighting;
+            aspectInput.value = p.aspect;
+            audioInput.value = p.audio;
+            engineInput.value = p.engine;
+            
+            currentPresetIdx = (currentPresetIdx + 1) % presets.length;
+            presetBtn.textContent = `Load Next Preset (${currentPresetIdx + 1}/${presets.length})`;
+            compilePrompt();
+        });
+
+        // Copy to Clipboard Utility
+        function copyToClipboard(elementId, btnElement) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!`;
+                btnElement.classList.add('bg-emerald-600');
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.remove('bg-emerald-600');
+                }, 2000);
+            });
+        }
+
+        // Initial Load Run
+        subjectInput.value = presets[0].subject;
+        compilePrompt();
+    </script>
+</body>
+</html>

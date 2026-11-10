@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Token Burn-Rate & SaaS Unit Economics Calculator | FinOps Tool</title>
+    <meta name="description" content="Calculate and simulate multi-agent reasoning token costs across Gemini, Claude, and GPT models versus your SaaS subscription MRR margins in real-time.">
+    <meta name="keywords" content="AI Agent, Token Burn Rate, SaaS Unit Economics, FinOps, Cloud Billing, LLM Cost Calculator">
+    <link rel="canonical" href="https://example.com/ai-agent-token-calculator">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            DEFAULT: '#090a0f',
+                            surface: '#12141c',
+                            border: '#1f2430',
+                            card: '#161922'
+                        },
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#10b981',
+                            600: '#059669',
+                            400: '#34d399',
+                            glow: 'rgba(16, 185, 129, 0.15)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- JSON-LD SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AI Agent Token Burn-Rate & SaaS Unit Economics Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "pricingType": "Freemium",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Simulate multi-agent reasoning token costs across advanced LLMs vs subscription MRR margin thresholds."
+    }
+    </script>
+</head>
+<body class="bg-dark text-slate-100 min-h-screen font-sans selection:bg-brand-500 selection:text-dark antialiased flex flex-col justify-between">
+
+    <!-- Top CTA Banner -->
+    <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 border-b border-brand-500/20 py-2.5 px-4 text-center text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                PRO TOOLKIT
+            </span>
+            <span class="text-slate-300">Scale your AI startup safely: Get the complete production architecture blueprint.</span>
+            <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener noreferrer" class="font-bold text-brand-400 hover:underline inline-flex items-center gap-1">
+                Get AI SaaS Toolkit 2026 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-dark-border">
+<div>
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">AI Agent Token Burn-Rate Calculator</h1>
+                        <p class="text-sm text-slate-400 mt-0.5">B2B SaaS FinOps: Simulate LLM inference reasoning costs vs. subscription MRR margins.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button id="btn-copy" onclick="copyResults()" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-surface hover:bg-dark-border border border-dark-border text-xs sm:text-sm font-medium transition text-slate-300 hover:text-white">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    <span id="copy-text">Copy Summary</span>
+                </button>
+                <button onclick="resetDefaults()" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-surface hover:bg-dark-border border border-dark-border text-xs sm:text-sm font-medium transition text-slate-400 hover:text-slate-200">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Presets Bar -->
+        <div class="mb-8 p-4 rounded-xl bg-dark-surface border border-dark-border flex flex-wrap items-center justify-between gap-4">
+            <span class="text-xs uppercase tracking-wider font-semibold text-slate-400 flex items-center gap-1.5">
+                <i data-lucide="sliders" class="w-3.5 h-3.5 text-brand-400"></i> Quick Presets:
+            </span>
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="loadPreset('support')" class="px-3 py-1.5 rounded-lg bg-dark hover:bg-dark-border border border-dark-border text-xs font-medium transition text-slate-300">
+                    Customer Support Swarm
+                </button>
+                <button onclick="loadPreset('coder')" class="px-3 py-1.5 rounded-lg bg-dark hover:bg-dark-border border border-dark-border text-xs font-medium transition text-slate-300">
+                    Autonomous Code Reviewer
+                </button>
+                <button onclick="loadPreset('analyst')" class="px-3 py-1.5 rounded-lg bg-dark hover:bg-dark-border border border-dark-border text-xs font-medium transition text-slate-300">
+                    Deep Financial Analyst
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Input Parameters (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Section 1: Agent Workload -->
+                <div class="p-6 rounded-2xl bg-dark-surface border border-dark-border space-y-4">
+                    <h2 class="text-base font-bold text-white flex items-center gap-2">
+                        <i data-lucide="layers" class="w-4 h-4 text-brand-400"></i> 1. Multi-Agent Workload Parameters
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Active Users / Subscribers</label>
+                            <input type="number" id="input-users" value="500" min="1" max="1000000" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Agent Tasks per User / Month</label>
+                            <input type="number" id="input-tasks" value="150" min="1" max="10000" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Avg Input Tokens per Task</label>
+                            <input type="number" id="input-tokens" value="4000" min="100" max="100000" step="100" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Avg Output Tokens per Task</label>
+                            <input type="number" id="output-tokens" value="1500" min="50" max="50000" step="50" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Model Selection & Pricing -->
+                <div class="p-6 rounded-2xl bg-dark-surface border border-dark-border space-y-4">
+                    <h2 class="text-base font-bold text-white flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-4 h-4 text-brand-400"></i> 2. Model Routing & Pricing Strategy
+                    </h2>
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1.5">Primary Reasoning LLM Engine</label>
+                        <select id="select-model" onchange="updateModelPricing(); calculate();" 
+                            class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                            <option value="claude-opus-55">Claude Opus 5.5 ($15.00 / MInput | $75.00 / MOutput)</option>
+                            <option value="gpt-61" selected>GPT-6.1 Turbo ($5.00 / MInput | $15.00 / MOutput)</option>
+                            <option value="gemini-ultra">Gemini Ultra 2.0 ($2.50 / MInput | $10.00 / MOutput)</option>
+                            <option value="custom">Custom Model Pricing</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Cost per 1M Input Tokens ($)</label>
+                            <input type="number" id="cost-input-m" value="5.00" min="0" step="0.1" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Cost per 1M Output Tokens ($)</label>
+                            <input type="number" id="cost-output-m" value="15.00" min="0" step="0.1" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Revenue & Margins -->
+                <div class="p-6 rounded-2xl bg-dark-surface border border-dark-border space-y-4">
+                    <h2 class="text-base font-bold text-white flex items-center gap-2">
+                        <i data-lucide="dollar-sign" class="w-4 h-4 text-brand-400"></i> 3. SaaS Subscription Pricing
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Avg Subscription Price (ARPU / mo)</label>
+                            <input type="number" id="input-arpu" value="49.00" min="1" max="10000" step="1" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Target Gross Margin Threshold (%)</label>
+                            <input type="number" id="input-margin-target" value="80" min="10" max="99" step="1" oninput="calculate()"
+                                class="w-full bg-dark border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Results & Analytics Dashboard (5 cols) -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <div class="p-6 rounded-2xl bg-gradient-to-b from-dark-surface to-dark border border-brand-500/30 relative overflow-hidden shadow-2xl">
+                    <!-- Glow effect -->
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-brand-400 mb-4 flex items-center gap-2">
+                        <i data-lucide="activity" class="w-4 h-4"></i> Financial Simulation Output
+                    </h2>
+
+                    <!-- Key Metric 1: Monthly Token Burn -->
+                    <div class="mb-6 pb-6 border-b border-dark-border">
+                        <span class="text-xs text-slate-400 block">Total Monthly Token Volume</span>
+                        <div class="text-2xl sm:text-3xl font-black text-white mt-1" id="res-total-tokens">0</div>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-2">
+                            <span>Input: <strong id="res-input-vol" class="text-slate-200">0</strong></span>
+                            <span>•</span>
+                            <span>Output: <strong id="res-output-vol" class="text-slate-200">0</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Key Metric 2: Total & Per User Cost -->
+                    <div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-dark-border">
+                        <div>
+                            <span class="text-xs text-slate-400 block">Monthly LLM Cost</span>
+                            <div class="text-xl sm:text-2xl font-bold text-rose-400 mt-1" id="res-total-cost">$0.00</div>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Cost per User (COGS)</span>
+                            <div class="text-xl sm:text-2xl font-bold text-amber-400 mt-1" id="res-cogs-user">$0.00</div>
+                        </div>
+                    </div>
+
+                    <!-- Key Metric 3: Gross Margin & Health -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Effective Gross Margin</span>
+                            <span class="text-sm font-extrabold" id="res-margin-val">0%</span>
+                        </div>
+                        
+                        <!-- Progress bar -->
+                        <div class="w-full bg-dark-border rounded-full h-2.5 overflow-hidden">
+                            <div id="res-margin-bar" class="bg-brand-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+
+                        <div id="res-status-badge" class="p-3 rounded-xl border text-xs flex items-start gap-2.5">
+                            <i id="res-status-icon" class="w-4 h-4 mt-0.5 flex-shrink-0"></i>
+                            <div>
+                                <span class="font-bold block" id="res-status-title">Analyzing...</span>
+                                <span class="text-slate-300" id="res-status-desc">Input your parameters to calculate financial health.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Insight Card -->
+                <div class="p-6 rounded-2xl bg-dark-surface border border-dark-border space-y-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <i data-lucide="zap" class="w-3.5 h-3.5 text-brand-400"></i> FinOps Optimization Advice
+                    </h3>
+                    <p id="res-advice" class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Adjust agent task frequency or routing rules to ensure COGS remains under 20% of your ARPU for a healthy SaaS valuation multiple.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Clean CTA Footer Banner -->
+    <footer class="mt-16 bg-dark-surface border-t border-dark-border py-12 px-4">
+        <div class="max-w-4xl mx-auto text-center space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Production Ready Architecture
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                Building an AI Agent SaaS in 2026?
+            </h2>
+            <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto">
+                Stop guessing LLM token usage and rate-limiting thresholds. Download the complete AI SaaS Toolkit with ready-to-deploy Next.js boilerplates, token streaming optimizers, and automated billing meters.
+            </p>
+            <div>
+                <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener noreferrer" 
+                    class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-dark font-bold text-sm sm:text-base transition shadow-lg shadow-brand-500/20">
+                    Get AI SaaS Toolkit 2026 ($49) <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <p class="text-xs text-slate-500 pt-4">
+                © 2026 AI SaaS FinOps Tools. All rights reserved. Built for elite indie hackers.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function formatNumber(num) {
+            if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(1) + 'k';
+            return num.toLocaleString();
+        }
+
+        function formatCurrency(num) {
+            return '$' + num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function updateModelPricing() {
+            const model = document.getElementById('select-model').value;
+            const inputCostField = document.getElementById('cost-input-m');
+            const outputCostField = document.getElementById('cost-output-m');
+
+            if (model === 'claude-opus-55') {
+                inputCostField.value = 15.00;
+                outputCostField.value = 75.00;
+            } else if (model === 'gpt-61') {
+                inputCostField.value = 5.00;
+                outputCostField.value = 15.00;
+            } else if (model === 'gemini-ultra') {
+                inputCostField.value = 2.50;
+                outputCostField.value = 10.00;
+            }
+        }
+
+        function loadPreset(type) {
+            if (type === 'support') {
+                document.getElementById('input-users').value = 1200;
+                document.getElementById('input-tasks').value = 80;
+                document.getElementById('input-tokens').value = 2500;
+                document.getElementById('output-tokens').value = 800;
+                document.getElementById('select-model').value = 'gemini-ultra';
+                document.getElementById('input-arpu').value = 29.00;
+                document.getElementById('input-margin-target').value = 85;
+            } else if (type === 'coder') {
+                document.getElementById('input-users').value = 300;
+                document.getElementById('input-tasks').value = 200;
+                document.getElementById('input-tokens').value = 12000;
+                document.getElementById('output-tokens').value = 4500;
+                document.getElementById('select-model').value = 'claude-opus-55';
+                document.getElementById('input-arpu').value = 99.00;
+                document.getElementById('input-margin-target').value = 80;
+            } else if (type === 'analyst') {
+                document.getElementById('input-users').value = 500;
+                document.getElementById('input-tasks').value = 150;
+                document.getElementById('input-tokens').value = 8000;
+                document.getElementById('output-tokens').value = 3000;
+                document.getElementById('select-model').value = 'gpt-61';
+                document.getElementById('input-arpu').value = 149.00;
+                document.getElementById('input-margin-target').value = 80;
+            }
+            updateModelPricing();
+            calculate();
+        }
+
+        function resetDefaults() {
+            document.getElementById('input-users').value = 500;
+            document.getElementById('input-tasks').value = 150;
+            document.getElementById('input-tokens').value = 4000;
+            document.getElementById('output-tokens').value = 1500;
+            document.getElementById('select-model').value = 'gpt-61';
+            document.getElementById('cost-input-m').value = 5.00;
+            document.getElementById('cost-output-m').value = 15.00;
+            document.getElementById('input-arpu').value = 49.00;
+            document.getElementById('input-margin-target').value = 80;
+            calculate();
+        }
+
+        function calculate() {
+            // Read inputs
+            const users = parseFloat(document.getElementById('input-users').value) || 0;
+            const tasks = parseFloat(document.getElementById('input-tasks').value) || 0;
+            const inputTokensPerTask = parseFloat(document.getElementById('input-tokens').value) || 0;
+            const outputTokensPerTask = parseFloat(document.getElementById('output-tokens').value) || 0;
+            
+            const costPerInputM = parseFloat(document.getElementById('cost-input-m').value) || 0;
+            const costPerOutputM = parseFloat(document.getElementById('cost-output-m').value) || 0;
+            
+            const arpu = parseFloat(document.getElementById('input-arpu').value) || 0;
+            const targetMargin = parseFloat(document.getElementById('input-margin-target').value) || 80;
+
+            // Calculations
+            const totalTasks = users * tasks;
+            const totalInputTokens = totalTasks * inputTokensPerTask;
+            const totalOutputTokens = totalTasks * outputTokensPerTask;
+            const grandTotalTokens = totalInputTokens + totalOutputTokens;
+
+            const monthlyInputCost = (totalInputTokens / 1_000_000) * costPerInputM;
+            const monthlyOutputCost = (totalOutputTokens / 1_000_000) * costPerOutputM;
+            const totalMonthlyCost = monthlyInputCost + monthlyOutputCost;
+
+            const costPerUser = users > 0 ? totalMonthlyCost / users : 0;
+            const totalRevenue = users * arpu;
+            
+            let grossMargin = 0;
+            if (totalRevenue > 0) {
+                grossMargin = ((totalRevenue - totalMonthlyCost) / totalRevenue) * 100;
+            } else if (totalMonthlyCost === 0) {
+                grossMargin = 100;
+            } else {
+                grossMargin = -100;
+            }
+
+            // Update UI elements
+            document.getElementById('res-total-tokens').innerText = formatNumber(grandTotalTokens);
+            document.getElementById('res-input-vol').innerText = formatNumber(totalInputTokens);
+            document.getElementById('res-output-vol').innerText = formatNumber(totalOutputTokens);
+            
+            document.getElementById('res-total-cost').innerText = formatCurrency(totalMonthlyCost);
+            document.getElementById('res-cogs-user').innerText = formatCurrency(costPerUser);
+
+            const marginValElem = document.getElementById('res-margin-val');
+            marginValElem.innerText = grossMargin.toFixed(1) + '%';
+
+            const marginBar = document.getElementById('res-margin-bar');
+            const clampedMargin = Math.max(0, Math.min(100, grossMargin));
+            marginBar.style.width = clampedMargin + '%';
+
+            // Status Badge & Styling
+            const statusBadge = document.getElementById('res-status-badge');
+            const statusIcon = document.getElementById('res-status-icon');
+            const statusTitle = document.getElementById('res-status-title');
+            const statusDesc = document.getElementById('res-status-desc');
+            const adviceElem = document.getElementById('res-advice');
+
+            marginBar.className = "h-2.5 rounded-full transition-all duration-350 " + 
+                (grossMargin >= targetMargin ? 'bg-brand-500' : grossMargin >= 50 ? 'bg-amber-500' : 'bg-rose-500');
+
+            if (grossMargin >= targetMargin) {
+                statusBadge.className = "p-3 rounded-xl border bg-brand-500/10 border-brand-500/30 text-brand-300 flex items-start gap-2.5";
+                statusIcon.setAttribute('data-lucide', 'check-circle-2');
+                statusIcon.className = "w-4 h-4 mt-0.5 flex-shrink-0 text-brand-400";
+                statusTitle.innerText = "Healthy Unit Economics";
+                statusDesc.innerText = `Gross margin exceeds your ${targetMargin}% target threshold.`;
+                adviceElem.innerText = "Your pricing model comfortably covers token consumption burn. Consider testing aggressive user acquisition or offering higher-tier agent workloads.";
+            } else if (grossMargin >= 0) {
+                statusBadge.className = "p-3 rounded-xl border bg-amber-500/10 border-amber-500/30 text-amber-300 flex items-start gap-2.5";
+                statusIcon.setAttribute('data-lucide', 'alert-triangle');
+                statusIcon.className = "w-4 h-4 mt-0.5 flex-shrink-0 text-amber-400";
+                statusTitle.innerText = "Margin Compression Warning";
+                statusDesc.innerText = `Margin (${grossMargin.toFixed(1)}%) is below your ${targetMargin}% target.`;
+                adviceElem.innerText = "Implement prompt compression, cache frequent tool responses, or route simpler queries to lighter models like GPT-4o-mini or Gemini Flash to protect your margins.";
+            } else {
+                statusBadge.className = "p-3 rounded-xl border bg-rose-500/10 border-rose-500/30 text-rose-300 flex items-start gap-2.5";
+                statusIcon.setAttribute('data-lucide', 'x-circle');
+                statusIcon.className = "w-4 h-4 mt-0.5 flex-shrink-0 text-rose-400";
+                statusTitle.innerText = "Critical Burn Rate (Negative Margin)";
+                statusDesc.innerText = "LLM inference costs exceed total monthly subscription revenue.";
+                adviceElem.innerText = "Immediate action required: Restructure subscription tiers with token caps, introduce usage-based billing overage fees, or switch primary agent models.";
+            }
+
+            // Re-render dynamic icons inside status badge
+            lucide.createIcons();
+        }
+
+        function copyResults() {
+            const users = document.getElementById('input-users').value;
+            const totalCost = document.getElementById('res-total-cost').innerText;
+            const cogsUser = document.getElementById('res-cogs-user').innerText;
+            const margin = document.getElementById('res-margin-val').innerText;
+            const totalTokens = document.getElementById('res-total-tokens').innerText;
+
+            const summary = `AI Agent FinOps Simulation Summary:
+- Active Users: ${users}
+- Monthly Token Volume: ${totalTokens}
+- Monthly LLM Cost: ${totalCost}
+- COGS per User: ${cogsUser}
+- Gross Margin: ${margin}
+Generated via AI Agent Token Burn-Rate Calculator.`;
+
+            navigator.clipboard.writeText(summary).then(() => {
+                const copyText = document.getElementById('copy-text');
+                copyText.innerText = 'Copied!';
+                setTimeout(() => {
+                    copyText.innerText = 'Copy Summary';
+                }, 2000);
+            });
+        }
+
+        // Run initial calculation on load
+        window.onload = function() {
+            calculate();
+        };
+    </script>
+</body>
+</html>

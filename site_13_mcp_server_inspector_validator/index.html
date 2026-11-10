@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Server Schema Validator & Tool JSON Inspector (2026)</title>
+    <meta name="description" content="Validate Model Context Protocol (MCP) tool JSON schemas, test JSON-RPC 2.0 payloads, and generate Claude, Cursor, and Antigravity config snippets instantly 100% client-side.">
+    <meta name="keywords" content="MCP server, Model Context Protocol, JSON schema validator, JSON-RPC 2.0, Claude tools, Cursor IDE config, AI developer tools">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MCP Server Schema Validator & Tool JSON Inspector">
+    <meta property="og:description" content="Instant 100% client-side validation for Model Context Protocol (MCP) servers and JSON-RPC 2.0 payloads.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mcp-validator.dev">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#090d16',
+                            800: '#111827',
+                            700: '#1f2937',
+                            600: '#374151',
+                        },
+                        accent: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            400: '#818cf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- JSON-LD SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "MCP Server Schema Validator & Tool JSON Inspector",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "description": "Validate Model Context Protocol (MCP) tool JSON schemas, test JSON-RPC 2.0 payloads, and generate Claude/Cursor/Antigravity config snippets 100% client-side.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="bg-dark-900 text-slate-100 min-h-screen font-sans antialiased flex flex-col selection:bg-accent-500 selection:text-white">
+
+    <!-- Header / Nav -->
+    <header class="border-b border-dark-700 bg-dark-800/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="h-9 w-9 bg-gradient-to-tr from-accent-600 to-accent-400 rounded-lg flex items-center justify-center shadow-lg shadow-accent-500/20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round5" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                </div>
+                <div>
+                    <span class="font-bold tracking-tight text-lg bg-gradient-to-r from-white via-slate-200 to-accent-400 bg-clip-text text-transparent">MCP Validator</span>
+                    <span class="hidden sm:inline-block ml-2 text-xs px-2 py-0.5 rounded-full bg-accent-500/10 text-accent-400 border border-accent-500/20 font-medium">v2026.3 Spec</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="loadPreset('validTool')" class="text-xs bg-dark-700 hover:bg-dark-600 px-3 py-1.5 rounded-lg border border-dark-600 transition text-slate-300">Load Preset</button>
+                <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener" class="text-xs bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-500 hover:to-accent-400 font-semibold px-4 py-2 rounded-lg shadow-md shadow-accent-600/30 transition">Get AI Toolkit &rarr;</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Panel: Inputs & Presets -->
+        <section class="lg:col-span-6 flex flex-col space-y-6">
+            <div class="bg-dark-800 rounded-2xl border border-dark-700 p-5 shadow-xl flex flex-col flex-grow">
+                <div class="flex items-center justify-between mb-3">
+                    <label for="jsonInput" class="text-sm font-semibold text-slate-200 flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round5" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8-4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                        <span>MCP Tool Schema / JSON-RPC Payload</span>
+                    </label>
+                    <div class="flex space-x-2">
+                        <select id="presetSelect" onchange="handlePresetChange(this.value)" class="bg-dark-900 border border-dark-700 text-xs rounded-lg px-2.5 py-1 text-slate-300 focus:outline-none focus:border-accent-500">
+                            <option value="validTool">Preset: Valid MCP Tool</option>
+                            <option value="validRpc">Preset: JSON-RPC Call</option>
+                            <option value="invalidSchema">Preset: Broken Schema (Errors)</option>
+                        </select>
+                        <button onclick="formatJSON()" class="text-xs bg-dark-700 hover:bg-dark-600 px-2.5 py-1 rounded-lg border border-dark-600 text-slate-300 transition">Format</button>
+                    </div>
+                </div>
+                
+                <div class="relative flex-grow min-h-[360px] flex flex-col">
+                    <textarea id="jsonInput" oninput="runValidation()" placeholder="Paste your MCP tool schema or JSON-RPC 2.0 payload here..." class="w-full flex-grow bg-dark-900 border border-dark-700 rounded-xl p-4 font-mono text-xs text-accent-400 focus:outline-none focus:border-accent-500 resize-none leading-relaxed"></textarea>
+                </div>
+
+                <div class="mt-4 flex items-center justify-between pt-3 border-t border-dark-700/60 text-xs text-slate-400">
+                    <span id="charCount">0 characters</span>
+                    <span class="text-emerald-400 flex items-center space-x-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Client-side Execution</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Panel: Validation Results & Config Output -->
+        <section class="lg:col-span-6 flex flex-col space-y-6">
+            <!-- Diagnostics Box -->
+            <div class="bg-dark-800 rounded-2xl border border-dark-700 p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-200 flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round5" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Validation & Inspector Diagnostics</span>
+                    </h2>
+                    <span id="statusBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Ready</span>
+                </div>
+                <div id="diagnosticOutput" class="bg-dark-900 border border-dark-700 rounded-xl p-4 font-mono text-xs space-y-2 min-h-[120px] max-h-[200px] overflow-y-auto text-slate-300">
+                    <div class="text-slate-500">// Waiting for valid schema payload...</div>
+                </div>
+            </div>
+
+            <!-- Client Config Generator Box -->
+            <div class="bg-dark-800 rounded-2xl border border-dark-700 p-5 shadow-xl flex flex-col flex-grow">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <h2 class="text-sm font-semibold text-slate-200 flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round5" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span>Generated AI Client Config</span>
+                        </h2>
+                        <div class="flex space-x-1 bg-dark-900 p-0.5 rounded-lg border border-dark-700">
+                            <button onclick="switchTab('claude')" id="tab-claude" class="px-2.5 py-1 text-xs rounded-md bg-accent-600 text-white font-medium transition">Claude</button>
+                            <button onclick="switchTab('cursor')" id="tab-cursor" class="px-2.5 py-1 text-xs rounded-md text-slate-400 hover:text-white transition">Cursor</button>
+                            <button onclick="switchTab('antigravity')" id="tab-antigravity" class="px-2.5 py-1 text-xs rounded-md text-slate-400 hover:text-white transition">Antigravity</button>
+                        </div>
+                    </div>
+                    <button onclick="copySnippet()" class="flex items-center space-x-1.5 text-xs bg-dark-700 hover:bg-dark-600 px-3 py-1.5 rounded-lg border border-dark-600 text-slate-200 transition font-medium active:scale-95">
+                        <svg class="w-3.5 h-3.5 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round5" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                        <span id="copyBtnText">Copy Config</span>
+                    </button>
+                </div>
+                
+                <div class="relative flex-grow">
+                    <pre id="configOutput" class="w-full h-full min-h-[160px] bg-dark-900 border border-dark-700 rounded-xl p-4 font-mono text-xs text-slate-300 overflow-x-auto leading-relaxed"></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Gumroad CTA Banner Footer -->
+    <section class="border-t border-dark-700 bg-dark-800/80 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-1 text-center md:text-left">
+                <h3 class="text-base font-bold text-white flex items-center justify-center md:justify-start space-x-2">
+                    <span>⚡ Supercharge your AI Engineering Stack</span>
+                </h3>
+                <p class="text-xs text-slate-400">Get the complete 2026 AI SaaS Developer Toolkit featuring pre-built MCP servers, auth modules, & AI orchestrations.</p>
+            </div>
+            <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener" class="whitespace-nowrap bg-gradient-to-r from-accent-600 via-accent-500 to-indigo-400 hover:opacity-95 text-white font-semibold px-6 py-3 rounded-xl shadow-xl shadow-accent-600/30 text-xs transition transform hover:-translate-y-0.5">
+                Unlock AI SaaS Toolkit ($49) &rarr;
+            </a>
+        </div>
+    </section>
+
+    <!-- Client Logic Scripts -->
+    <script>
+        const presets = {
+            validTool: JSON.stringify({
+                "name": "fetch_github_issues",
+                "description": "Fetch repository issues via Model Context Protocol",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "owner": { "type": "string", "description": "Repository owner" },
+                        "repo": { "type": "string", "description": "Repository name" },
+                        "state": { "type": "string", "enum": ["open", "closed", "all"] }
+                    },
+                    "required": ["owner", "repo"]
+                }
+            }, null, 2),
+            
+            validRpc: JSON.stringify({
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {
+                    "name": "fetch_github_issues",
+                    "arguments": {
+                        "owner": "modelcontextprotocol",
+                        "repo": "specification"
+                    }
+                },
+                "id": 1
+            }, null, 2),
+
+            invalidSchema: JSON.stringify({
+                "name": "broken_tool",
+                "description": "Missing input schema structure",
+                "inputSchema": {
+                    "type": "invalid_data_type",
+                    "properties": "should_be_object"
+                }
+            }, null, 2)
+        };
+
+        let currentTab = 'claude';
+        let parsedData = null;
+
+        function loadPreset(presetKey) {
+            document.getElementById('presetSelect').value = presetKey;
+            handlePresetChange(presetKey);
+        }
+
+        function handlePresetChange(key) {
+            if (presets[key]) {
+                document.getElementById('jsonInput').value = presets[key];
+                runValidation();
+            }
+        }
+
+        function formatJSON() {
+            const input = document.getElementById('jsonInput');
+            try {
+                const obj = JSON.parse(input.value);
+                input.value = JSON.stringify(obj, null, 2);
+                runValidation();
+            } catch (e) {
+                // Invalid JSON, leave as is
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['claude', 'cursor', 'antigravity'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    btn.className = 'px-2.5 py-1 text-xs rounded-md bg-accent-600 text-white font-medium transition';
+                } else {
+                    btn.className = 'px-2.5 py-1 text-xs rounded-md text-slate-400 hover:text-white transition';
+                }
+            });
+            updateConfigOutput();
+        }
+
+        function runValidation() {
+            const val = document.getElementById('jsonInput').value;
+            document.getElementById('charCount').innerText = `${val.length} characters`;
+            
+            const diag = document.getElementById('diagnosticOutput');
+            const badge = document.getElementById('statusBadge');
+            
+            if (!val.trim()) {
+                diag.innerHTML = `<div class="text-slate-500">// Empty payload input.</div>`;
+                badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-500/10 text-slate-400 border border-slate-500/20';
+                badge.innerText = 'Empty';
+                parsedData = null;
+                updateConfigOutput();
+                return;
+            }
+
+            try {
+                parsedData = JSON.parse(val);
+                let logs = [];
+                let hasErrors = false;
+
+                logs.push(`<div class="text-emerald-400">✓ Valid JSON syntax parsed successfully.</div>`);
+
+                // Check MCP criteria
+                if (parsedData.jsonrpc) {
+                    if (parsedData.jsonrpc !== "2.0") {
+                        logs.push(`<div class="text-amber-400">⚠ JSON-RPC version is "${parsedData.jsonrpc}" (Expected "2.0")</div>`);
+                        hasErrors = true;
+                    } else {
+                        logs.push(`<div class="text-emerald-400">✓ Valid JSON-RPC 2.0 payload header.</div>`);
+                    }
+                    if (!parsedData.method) {
+                        logs.push(`<div class="text-rose-400">✕ Missing required JSON-RPC "method" property.</div>`);
+                        hasErrors = true;
+                    }
+                } else {
+                    // Check Tool Schema specification
+                    if (!parsedData.name) {
+                        logs.push(`<div class="text-rose-400">✕ MCP Tool missing required string "name".</div>`);
+                        hasErrors = true;
+                    } else {
+                        logs.push(`<div class="text-emerald-400">✓ Tool Name: <span class="text-white">${parsedData.name}</span></div>`);
+                    }
+
+                    if (!parsedData.inputSchema) {
+                        logs.push(`<div class="text-rose-400">✕ MCP Tool missing required "inputSchema" object.</div>`);
+                        hasErrors = true;
+                    } else {
+                        if (parsedData.inputSchema.type !== 'object') {
+                            logs.push(`<div class="text-rose-400">✕ inputSchema.type must be "object", found "${parsedData.inputSchema.type}".</div>`);
+                            hasErrors = true;
+                        } else {
+                            logs.push(`<div class="text-emerald-400">✓ Valid JSON Schema type: object.</div>`);
+                        }
+                        if (typeof parsedData.inputSchema.properties !== 'object' || Array.isArray(parsedData.inputSchema.properties)) {
+                            logs.push(`<div class="text-rose-400">✕ inputSchema.properties must be a valid key-value object map.</div>`);
+                            hasErrors = true;
+                        } else {
+                            const propCount = Object.keys(parsedData.inputSchema.properties || {}).length;
+                            logs.push(`<div class="text-emerald-400">✓ Inspected ${propCount} tool argument parameter(s).</div>`);
+                        }
+                    }
+                }
+
+                if (hasErrors) {
+                    badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
+                    badge.innerText = 'Schema Error';
+                } else {
+                    badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+                    badge.innerText = 'MCP Spec Valid';
+                }
+
+                diag.innerHTML = logs.join('');
+
+            } catch (err) {
+                parsedData = null;
+                badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
+                badge.innerText = 'Syntax Error';
+                diag.innerHTML = `<div class="text-rose-400">✕ JSON Parse Error: ${err.message}</div>`;
+            }
+
+            updateConfigOutput();
+        }
+
+        function updateConfigOutput() {
+            const out = document.getElementById('configOutput');
+            const toolName = (parsedData && parsedData.name) ? parsedData.name : "custom_mcp_server";
+
+            if (currentTab === 'claude') {
+                out.innerText = JSON.stringify({
+                    "mcpServers": {
+                        [toolName]: {
+                            "command": "npx",
+                            "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/files"]
+                        }
+                    }
+                }, null, 2);
+            } else if (currentTab === 'cursor') {
+                out.innerText = JSON.stringify({
+                    "version": "2026.2",
+                    "mcp": {
+                        "servers": [
+                            {
+                                "name": toolName,
+                                "transport": "stdio",
+                                "command": "node",
+                                "args": ["./dist/index.js"]
+                            }
+                        ]
+                    }
+                }, null, 2);
+            } else if (currentTab === 'antigravity') {
+                out.innerText = `# Antigravity Engine Config 2026
+mcp:
+  enabled: true
+  active_tools:
+    - ${toolName}
+  security:
+    sandboxed: true
+    max_payload_kb: 512
+  endpoint: "jsonrpc://localhost:8080/mcp"`;
+            }
+        }
+
+        function copySnippet() {
+            const text = document.getElementById('configOutput').innerText;
+            navigator.clipboard.writeText(text);
+            const btnText = document.getElementById('copyBtnText');
+            btnText.innerText = 'Copied!';
+            setTimeout(() => {
+                btnText.innerText = 'Copy Config';
+            }, 1800);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPreset('validTool');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solo-Founder Cross-Border Payout & W-8BEN Tax Net Estimator</title>
+    <meta name="description" content="Calculate your true take-home revenue as an international indie hacker. Compare FX spreads and US withholding taxes across Stripe, Gumroad, Lemon Squeezy, Payoneer & WorldFirst.">
+    <meta name="keywords" content="cross-border payout calculator, W-8BEN tax estimator, indie hacker tax tool, international SaaS revenue calculator, Stripe FX fees, Lemon Squeezy payout, WorldFirst FX">
+    <meta name="author" content="Indie Hacker Toolkit">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://indiehackertoolkit.com/cross-border-estimator">
+    <meta property="og:title" content="Solo-Founder Cross-Border Payout & W-8BEN Tax Net Estimator">
+    <meta property="og:description" content="Compare Stripe, Gumroad, Lemon Squeezy, Payoneer & WorldFirst FX spreads and US treaty withholding rates instantly.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&h=630&q=80">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090d16',
+                        darkCard: '#111827',
+                        darkBorder: '#1f293d',
+                        brandPrimary: '#6366f1',
+                        brandHover: '#4f46e5',
+                        brandAccent: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Solo-Founder Cross-Border Payout & W-8BEN Tax Net Estimator",
+      "operatingSystem": "All",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate exact cross-border payouts, FX spreads, and US W-8BEN withholding for digital products and SaaS.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "url": "https://indiehackertoolkit.com/cross-border-estimator"
+    }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-brandPrimary selection:text-white">
+
+    <!-- Top CTA Banner -->
+    <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 border-b border-indigo-700/50 py-2.5 px-4 text-center text-xs md:text-sm font-medium">
+        <span class="bg-brandAccent text-slate-950 font-bold px-2 py-0.5 rounded text-xs mr-2 uppercase tracking-wide">New for 2026</span>
+        Scale your solo SaaS globally with our vetted boilerplate bundle. 
+        <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener noreferrer" class="underline font-bold text-white hover:text-indigo-200 ml-1 inline-flex items-center gap-1">
+            Get the AI SaaS Toolkit <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="border-b border-darkBorder bg-darkCard/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brandPrimary to-brandAccent flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-globe-americas text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg tracking-tight flex items-center gap-2">
+                        GlobalPayout <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brandPrimary/20 text-indigo-300 border border-brandPrimary/30">W-8BEN Engine</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="shareBtn" onclick="copyShareLink()" class="hidden sm:inline-flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg bg-darkBorder hover:bg-slate-800 transition text-slate-300 border border-slate-700/50">
+                    <i class="fa-solid fa-share-nodes text-brandPrimary"></i> Share Setup
+                </button>
+                <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-brandPrimary to-indigo-600 hover:from-brandHover hover:to-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-xs md:text-sm shadow-md shadow-indigo-600/20 transition transform active:scale-95 flex items-center gap-2">
+                    <i class="fa-solid fa-rocket"></i> Get 2026 SaaS Kit
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Panel: Inputs & Configuration (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-darkCard border border-darkBorder rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brandPrimary/5 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <h2 class="text-lg font-bold flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-sliders text-brandPrimary"></i> Revenue & Tax Parameters
+                </h2>
+
+                <div class="space-y-5">
+                    <!-- Gross Revenue Input -->
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Monthly Gross Revenue (USD)</label>
+                        <div class="relative rounded-lg shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-bold">$</div>
+                            <input type="number" id="grossRevenue" value="12500" min="100" max="1000000" step="100" class="block w-full pl-8 pr-12 py-3 bg-darkBg border border-darkBorder rounded-xl focus:ring-2 focus:ring-brandPrimary focus:border-brandPrimary text-white font-semibold text-lg mono-font" oninput="calculate()">
+                            <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-xs text-slate-500 font-bold">USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Country / Treaty Selection -->
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Your Residence / Tax Treaty</label>
+                        <select id="countrySelect" class="block w-full py-3 px-4 bg-darkBg border border-darkBorder rounded-xl focus:ring-2 focus:ring-brandPrimary focus:border-brandPrimary text-white font-medium text-sm" onchange="updateTreatyRate(); calculate();">
+                            <option value="0">United Kingdom (0% US Withholding)</option>
+                            <option value="0" selected>Canada (0% US Withholding)</option>
+                            <option value="0">Germany / EU / Australia (0% via W-8BEN)</option>
+                            <option value="10">India (10% Royalty / Copyright Treaty)</option>
+                            <option value="15">Brazil / Argentina (15% Treaty Rate)</option>
+                            <option value="30" selected>Non-Treaty Country (30% Default Withholding)</option>
+                        </select>
+                        <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-info text-brandPrimary"></i> Applies to US-sourced digital sales without a valid W-8BEN.
+                        </p>
+                    </div>
+
+                    <!-- US Customer Percentage -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">US-Based Customer Share</label>
+                            <span id="usShareVal" class="text-xs font-bold text-brandPrimary mono-font bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-800/50">45%</span>
+                        </div>
+                        <input type="range" id="usShare" min="0" max="100" value="45" class="w-full h-2 bg-darkBg rounded-lg appearance-none cursor-pointer accent-brandPrimary" oninput="document.getElementById('usShareVal').innerText = this.value + '%'; calculate();">
+                    </div>
+
+                    <!-- Payout Currency -->
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Target Local Currency</label>
+                        <select id="currencySelect" class="block w-full py-3 px-4 bg-darkBg border border-darkBorder rounded-xl focus:ring-2 focus:ring-brandPrimary focus:border-brandPrimary text-white font-medium text-sm" onchange="calculate()">
+                            <option value="EUR">EUR (€) - Eurozone</option>
+                            <option value="GBP">GBP (£) - British Pound</option>
+                            <option value="CAD">CAD ($) - Canadian Dollar</option>
+                            <option value="AUD">AUD ($) - Australian Dollar</option>
+                            <option value="INR">INR (₹) - Indian Rupee</option>
+                            <option value="USD" selected>USD ($) - US Dollar Account</option>
+                        </select>
+                    </div>
+
+                    <!-- Presets -->
+                    <div class="pt-3 border-t border-darkBorder">
+                        <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Quick Founder Presets</span>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="setPreset(3500, 30, '0')" class="px-3 py-2 bg-darkBg hover:bg-darkBorder border border-darkBorder rounded-lg text-xs font-medium text-slate-300 transition text-center">
+                                🌱 Indie ($3.5k)
+                            </button>
+                            <button onclick="setPreset(12500, 45, '0')" class="px-3 py-2 bg-darkBg hover:bg-darkBorder border border-darkBorder rounded-lg text-xs font-medium text-slate-300 transition text-center">
+                                🚀 Scaling ($12.5k)
+                            </button>
+                            <button onclick="setPreset(45000, 60, '10')" class="px-3 py-2 bg-darkBg hover:bg-darkBorder border border-darkBorder rounded-lg text-xs font-medium text-slate-300 transition text-center">
+                                🦄 MRR ($45k)
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tax Compliance Alert Card -->
+            <div class="bg-gradient-to-br from-indigo-950/40 to-slate-900 border border-indigo-900/40 rounded-2xl p-5">
+                <div class="flex items-start space-x-3">
+                    <div class="p-2 rounded-lg bg-indigo-500/10 text-brandPrimary mt-0.5">
+                        <i class="fa-solid fa-file-shield text-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white mb-1">W-8BEN Optimization Notice</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Submitting a valid Form W-8BEN to Merchant of Record (MoR) platforms or your direct payment processor eliminates statutory 30% US backup withholding for qualifying foreign sole proprietors.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Comparison Results & Breakdown (7 cols) -->
+        <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Top Summary Card -->
+            <div class="bg-darkCard border border-darkBorder rounded-2xl p-6 shadow-xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-darkBorder gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Winner Strategy</span>
+                        <h3 id="bestPlatformName" class="text-xl sm:text-2xl font-extrabold text-white mt-0.5 flex items-center gap-2">
+                            Lemon Squeezy <span class="text-xs font-bold bg-brandAccent/20 text-emerald-400 px-2.5 py-0.5 rounded-full border border-brandAccent/30">Highest Net Take-Home</span>
+                        </h3>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Max Net Payout</span>
+                        <div id="bestPlatformAmount" class="text-2xl sm:text-3xl font-black text-brandAccent mono-font">$11,240 <span class="text-xs text-slate-400 font-normal">/mo</span></div>
+                    </div>
+                </div>
+
+                <!-- Platform Comparison Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6" id="platformCardsContainer">
+                    <!-- Injected dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Detailed Breakdown Table -->
+            <div class="bg-darkCard border border-darkBorder rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells text-brandPrimary"></i> Complete Fee & FX Breakdown
+                    </h3>
+                    <button onclick="copyTableText()" class="text-xs font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                        <i class="fa-regular fa-copy"></i> Copy Summary
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-darkBorder text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
+                                <th class="py-3 px-3">Platform</th>
+                                <th class="py-3 px-3">Type</th>
+                                <th class="py-3 px-3">Fees & FX Spread</th>
+                                <th class="py-3 px-3">US Tax W/H</th>
+                                <th class="py-3 px-3 text-right">Net Payout</th>
+                            </tr>
+                        </thead>
+                        <tbody id="breakdownTableBody" class="divide-y divide-darkBorder/50 font-medium">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-darkBorder bg-darkCard/30 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                © 2026 Solo-Founder Toolkit. Built for global indie hackers & SaaS builders.
+            </div>
+            <div class="flex items-center space-x-6">
+                <span>Estimates based on published 2026 MoR & FX interchange rates.</span>
+                <a href="https://gumroad.com/l/ai-saas-toolkit-2026" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 underline">Privacy & Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript Engine -->
+    <script>
+        // FX Rates against USD
+        const fxRates = {
+            USD: 1.0,
+            EUR: 0.92,
+            GBP: 0.79,
+            CAD: 1.36,
+            AUD: 1.52,
+            INR: 83.2
+        };
+
+        const currencySymbols = {
+            USD: '$',
+            EUR: '€',
+            GBP: '£',
+            CAD: 'CA$',
+            AUD: 'A$',
+            INR: '₹'
+        };
+
+        function updateTreatyRate() {
+            const select = document.getElementById('countrySelect');
+            // If they change country, we can adjust default US customer share or withholding if desired
+        }
+
+        function setPreset(rev, us, treaty) {
+            document.getElementById('grossRevenue').value = rev;
+            document.getElementById('usShare').value = us;
+            document.getElementById('usShareVal').innerText = us + '%';
+            
+            const countrySelect = document.getElementById('countrySelect');
+            for(let i=0; i<countrySelect.options.length; i++) {
+                if(countrySelect.options[i].value === treaty) {
+                    countrySelect.selectedIndex = i;
+                    break;
+                }
+            }
+            calculate();
+        }
+
+        function calculate() {
+            const gross = parseFloat(document.getElementById('grossRevenue').value) || 0;
+            const usSharePct = parseFloat(document.getElementById('usShare').value) / 100;
+            const withholdingRate = parseFloat(document.getElementById('countrySelect').value) / 100;
+            const targetCurrency = document.getElementById('currencySelect').value;
+            const fxMultiplier = fxRates[targetCurrency];
+            const sym = currencySymbols[targetCurrency];
+
+            const usRevenue = gross * usSharePct;
+            const nonUsRevenue = gross * (1 - usSharePct);
+
+            // Platforms specification:
+            // 1. Lemon Squeezy (Merchant of Record): 5% + $0.50 per transaction. Assume avg ticket $35 -> approx 6.5% effective. MoR handles global tax & W-8BEN compliance. No separate withholding deduction on payout because MoR collects as reseller.
+            // 2. Gumroad (Merchant of Record): Flat 10% + credit card processing. MoR model.
+            // 3. Stripe Direct + WorldFirst FX: Stripe standard 2.9% + 30¢ + 1.5% international card fee. Then payout via WorldFirst FX transfer (0.5% FX spread). US withholding applies to US customers if no W-8BEN / direct EIN setup.
+            // 4. Stripe Direct + Standard Payout: Stripe 2.9% + 30¢ + 2% payout conversion FX fee.
+            // 5. Payoneer B2B / Marketplace: 2% receive fee + 2% withdrawal FX spread.
+
+            // Average ticket assumption for per-txn fees
+            const avgTicket = 35;
+            const estimatedTxns = gross / avgTicket;
+
+            // --- Platform 1: Lemon Squeezy ---
+            // 5% + 50c per tx
+            const lsFee = (gross * 0.05) + (estimatedTxns * 0.50);
+            const lsNetUSD = gross - lsFee; // MoR handles tax remittance
+
+            // --- Platform 2: Gumroad ---
+            const gumroadFee = gross * 0.10;
+            const gumroadNetUSD = gross - gumroadFee;
+
+            // --- Platform 3: Stripe + WorldFirst ---
+            const stripeFee = (gross * 0.029) + (estimatedTxns * 0.30) + (gross * 0.015); // intl card
+            // US withholding applies on US revenue portion if withholding rate > 0
+            const usWithholding = usRevenue * withholdingRate;
+            const stripeRemaining = gross - stripeFee - usWithholding;
+            const worldFirstFee = stripeRemaining * 0.004; // 0.4% FX spread
+            const wfNetUSD = stripeRemaining - worldFirstFee;
+
+            // --- Platform 4: Stripe Standard Payout ---
+            const stripeStandardFee = (gross * 0.029) + (estimatedTxns * 0.30) + (gross * 0.02) + (gross * 0.025); // 2% intl + 2.5% payout FX
+            const stripeNetUSD = gross - stripeStandardFee - usWithholding;
+
+            // --- Platform 5: Payoneer Global Payment ---
+            const payoneerFee = (gross * 0.02) + (gross * 0.02); // 2% receive + 2% withdraw
+            const payoneerNetUSD = gross - payoneerFee - usWithholding;
+
+            const platforms = [
+                {
+                    name: "Lemon Squeezy",
+                    type: "Merchant of Record",
+                    netUSD: lsNetUSD,
+                    badge: "Best MoR",
+                    desc: "5% + $0.50 flat. Zero tax withholding hassle.",
+                    feesText: `$${lsFee.toFixed(0)} (~6.4%)`
+                },
+                {
+                    name: "Gumroad",
+                    type: "Merchant of Record",
+                    netUSD: gumroadNetUSD,
+                    badge: "Simple Setup",
+                    desc: "10% flat fee. Built-in affiliate & creator tools.",
+                    feesText: `$${gumroadFee.toFixed(0)} (10.0%)`
+                },
+                {
+                    name: "Stripe + WorldFirst",
+                    type: "Direct + FX Partner",
+                    netUSD: wfNetUSD,
+                    badge: "Lowest FX",
+                    desc: "Stripe fees + 0.4% WorldFirst multi-currency transfer.",
+                    feesText: `$${(stripeFee + worldFirstFee).toFixed(0)} + Tax`
+                },
+                {
+                    name: "Stripe Standard",
+                    type: "Direct Gateway",
+                    netUSD: stripeNetUSD,
+                    badge: "Standard",
+                    desc: "Stripe default cross-border payout conversion.",
+                    feesText: `$${stripeStandardFee.toFixed(0)} + Tax`
+                },
+                {
+                    name: "Payoneer Direct",
+                    type: "B2B / Account",
+                    netUSD: payoneerNetUSD,
+                    badge: "Alternative",
+                    desc: "2% receive + 2% withdrawal FX spread.",
+                    feesText: `$${payoneerFee.toFixed(0)} + Tax`
+                }
+            ];
+
+            // Sort by net USD descending
+            platforms.sort((a, b) => b.netUSD - a.netUSD);
+
+            // Update Winner Header
+            const winner = platforms[0];
+            const winnerConverted = winner.netUSD * fxMultiplier;
+            document.getElementById('bestPlatformName').innerHTML = `${winner.name} <span class="text-xs font-bold bg-brandAccent/20 text-emerald-400 px-2.5 py-0.5 rounded-full border border-brandAccent/30">${winner.badge}</span>`;
+            document.getElementById('bestPlatformAmount').innerHTML = `${sym}${Math.round(winnerConverted).toLocaleString()} <span class="text-xs text-slate-400 font-normal">/mo</span>`;
+
+            // Render Comparison Cards Grid
+            let cardsHTML = '';
+            platforms.forEach((p, index) => {
+                const converted = p.netUSD * fxMultiplier;
+                const isWinner = index === 0;
+                cardsHTML += `
+                    <div class="bg-darkBg border ${isWinner ? 'border-brandAccent/60 shadow-lg shadow-emerald-950/30 ring-1 ring-brandAccent/30' : 'border-darkBorder'} rounded-xl p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-white">${p.name}</span>
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${isWinner ? 'bg-brandAccent/20 text-emerald-400' : 'bg-darkBorder text-slate-300'}">${p.badge}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mb-3">${p.desc}</p>
+                        </div>
+                        <div class="flex items-end justify-between pt-3 border-t border-darkBorder/50">
+                            <div>
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider block">Est. Fees</span>
+                                <span class="text-xs font-medium text-slate-300 mono-font">${p.feesText}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider block">Net Payout</span>
+                                <span class="text-base font-extrabold text-white mono-font">${sym}${Math.round(converted).toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('platformCardsContainer').innerHTML = cardsHTML;
+
+            // Render Detailed Breakdown Table
+            let tableHTML = '';
+            platforms.forEach((p, index) => {
+                const converted = p.netUSD * fxMultiplier;
+                tableHTML += `
+                    <tr class="hover:bg-darkBorder/30 transition">
+                        <td class="py-3.5 px-3 font-semibold text-white flex items-center gap-2">
+                            ${index === 0 ? '<i class="fa-solid fa-trophy text-brandAccent text-xs"></i>' : ''}
+                            ${p.name}
+                        </td>
+                        <td class="py-3.5 px-3 text-slate-400 text-xs">${p.type}</td>
+                        <td class="py-3.5 px-3 text-slate-300 mono-font text-xs">${p.feesText}</td>
+                        <td class="py-3.5 px-3 text-slate-300 mono-font text-xs">${withholdingRate > 0 && !p.type.includes('MoR') ? (usSharePct * 100).toFixed(0) + '% US (' + (withholdingRate*100) + '%)' : 'None / MoR'}</td>
+                        <td class="py-3.5 px-3 text-right font-extrabold text-white mono-font text-sm">${sym}${Math.round(converted).toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('breakdownTableBody').innerHTML = tableHTML;
+        }
+
+        function copyShareLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = document.getElementById('shareBtn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check text-brandAccent"></i> Copied Link!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 2000);
+            });
+        }
+
+        function copyTableText() {
+            const gross = document.getElementById('grossRevenue').value;
+            const currency = document.getElementById('currencySelect').value;
+            const text = `Global Payout Estimator Summary:\nGross Revenue: $${gross} USD\nTarget Currency: ${currency}\nCalculated via Solo-Founder Cross-Border Toolkit.`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Summary copied to clipboard!');
+            });
+        }
+
+        // Initial run on page load
+        window.onload = function() {
+            calculate();
+        };
+    </script>
+</body>
+</html>
