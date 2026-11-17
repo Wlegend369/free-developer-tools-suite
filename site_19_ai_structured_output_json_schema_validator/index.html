@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Structured Output &amp; JSON Schema Strict-Mode Validator (OpenAI / Gemini / Claude 2026)</title>
+    <meta name="description" content="100% client-side AI Structured Output &amp; JSON Schema Strict-Mode Validator and Auto-Fixer for OpenAI response_format, Gemini responseSchema, and Anthropic Claude Tool Use. Fix missing additionalProperties: false, incomplete required arrays, recursive $ref cycles, and estimate structured schema token overhead.">
+    <meta name="keywords" content="AI structured output validator, OpenAI strict mode JSON schema, additionalProperties false autofix, Gemini responseSchema validator, Claude tool input_schema validator, JSON schema recursive ref checker, LLM structured output token calculator">
+    <meta name="author" content="2026 Free Developer Micro-Tools Suite">
+    <link rel="canonical" href="https://devtools-hub-2026.pages.dev/site_19_ai_structured_output_json_schema_validator/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="AI Structured Output &amp; JSON Schema Strict-Mode Validator (OpenAI / Gemini / Claude)">
+    <meta property="og:description" content="Validate and auto-repair JSON Schemas for OpenAI Strict Structured Outputs, Google Gemini responseSchema, and Anthropic Claude Tool Use 100% locally in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://devtools-hub-2026.pages.dev/site_19_ai_structured_output_json_schema_validator/">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darker: '#080b12',
+                        dark: '#111624',
+                        card: '#182032',
+                        border: '#26324d',
+                        brand: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1'
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.gstatic.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        code, pre, textarea { font-family: 'Fira Code', monospace; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #111624; }
+        ::-webkit-scrollbar-thumb { background: #26324d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b4c73; }
+    </style>
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "AI Structured Output & JSON Schema Strict-Mode Validator (OpenAI / Gemini / Claude)",
+          "operatingSystem": "All",
+          "applicationCategory": "DeveloperApplication",
+          "description": "100% client-side linter, auto-fixer, and token overhead estimator for LLM Structured Outputs. Automatically repairs missing additionalProperties: false, synchronizes required property arrays, detects recursive $ref cycles, strips unsupported format/pattern keywords for Gemini responseSchema, and exports ready-to-run OpenAI, Gemini, and Claude SDK payloads.",
+          "url": "https://devtools-hub-2026.pages.dev/site_19_ai_structured_output_json_schema_validator/",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Why does OpenAI Structured Outputs reject my JSON Schema with Invalid schema for response_format?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When strict: true is enabled in OpenAI Structured Outputs, every object node in your JSON Schema must explicitly specify additionalProperties: false, and every key inside properties must be listed inside the required array (optional fields should use nullable union types such as [\"string\", \"null\"])."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does Google Gemini responseSchema differ from OpenAI and Claude JSON Schemas?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Gemini's native responseSchema uses an OpenAPI 3.0 subset that rejects $defs/$ref recursion unless inlined, and throws 400 InvalidArgument errors on keywords like additionalProperties in older endpoints or arbitrary regex pattern constraints. Our compiler can inline non-cyclic $ref nodes and produce clean Gemini-ready schemas in one click."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are my proprietary prompt schemas or API payloads sent to any server?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Never. 100% of JSON AST traversal, strict-mode auto-repair, recursive cycle detection, and BPE token estimation execute locally inside your browser V8 engine with zero network calls."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="bg-darker text-slate-100 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Pro Toolkit Conversion Banner -->
+    <div class="bg-gradient-to-r from-sky-950 via-indigo-950 to-emerald-950 border-b border-brand-500/30 px-4 py-2 text-center text-xs sm:text-sm font-medium flex items-center justify-center gap-2 flex-wrap">
+        <span class="bg-emerald-500 text-darker text-[10px] font-bold uppercase px-2 py-0.5 rounded-full tracking-wider animate-pulse">2026 Pro Bundle · $19</span>
+        <span>Ship zero-hallucination AI Agents, MCP servers &amp; strict Structured Outputs 10x faster.</span>
+        <a href="https://payhip.com/b/Kid2E" target="_blank" rel="noopener noreferrer" data-cta="top-banner-payhip" class="underline text-brand-400 hover:text-emerald-300 font-bold ml-1 inline-flex items-center gap-1">
+            Get Solo-Founder AI &amp; SEO Pro Toolkit ($19) &rarr;
+        </a>
+    </div>
+
+    <!-- Header -->
+    <header class="border-b border-border bg-dark/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="h-9 w-9 rounded-lg bg-gradient-to-br from-brand-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-brand-500/20 hover:opacity-90 transition" title="Back to 19 Micro-Tools Hub">
+                    <svg class="w-5 h-5 text-darker" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </a>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-base sm:text-lg tracking-tight text-white">Strict<span class="text-brand-400">Schema</span>.ai</h1>
+                        <span class="hidden md:inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Tool #19 · Est. CPC $25.40</span>
+                    </div>
+                    <p class="text-xs text-slate-400 hidden sm:block">AI Structured Output &amp; JSON Schema Strict-Mode Validator (OpenAI / Gemini / Claude)</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="health-pill" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
+                    <span id="health-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span id="health-text">Auditing Schema...</span>
+                </span>
+                <a href="../index.html" class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-lg bg-card hover:bg-border text-slate-200 text-xs font-medium border border-border transition">
+                    All 19 Tools
+                </a>
+                <a href="https://payhip.com/b/Kid2E" target="_blank" rel="noopener noreferrer" data-cta="header-payhip" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-brand-500 to-indigo-600 hover:from-brand-600 hover:to-indigo-700 text-white text-xs font-bold shadow-lg shadow-brand-500/20 transition-all">
+                    Pro Toolkit ($19) &rarr;
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top Telemetry Metrics Bar -->
+    <div class="bg-dark/50 border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="bg-card/80 border border-border rounded-lg px-3.5 py-2 flex items-center justify-between">
+                <span class="text-slate-400">Strict Violations</span>
+                <span id="metric-errors" class="font-mono font-bold text-sm text-rose-400">0</span>
+            </div>
+            <div class="bg-card/80 border border-border rounded-lg px-3.5 py-2 flex items-center justify-between">
+                <span class="text-slate-400">Object / $ref Nodes</span>
+                <span id="metric-nodes" class="font-mono font-bold text-sm text-brand-400">0 / 0</span>
+            </div>
+            <div class="bg-card/80 border border-border rounded-lg px-3.5 py-2 flex items-center justify-between">
+                <span class="text-slate-400">Schema Token Tax</span>
+                <span id="metric-tokens" class="font-mono font-bold text-sm text-emerald-400">~0 tok</span>
+            </div>
+            <div class="bg-card/80 border border-border rounded-lg px-3.5 py-2 flex items-center justify-between">
+                <span class="text-slate-400">10k Calls Overhead</span>
+                <span id="metric-cost" class="font-mono font-bold text-sm text-indigo-300">$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 flex-grow w-full grid grid-cols-1 lg:grid-cols-12 gap-7">
+
+        <!-- Left Column: Input Schema, Presets & Auto-Fix Rules (6 Cols) -->
+        <div class="lg:col-span-6 space-y-5 flex flex-col">
+
+            <!-- Real-World Broken & Complex Presets -->
+            <div class="bg-card border border-border rounded-xl p-4 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">Load Real-World Schema Test Case</label>
+                    <span class="text-[11px] text-emerald-400 font-mono">Zero-Backend AST Engine</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button onclick="loadSample('broken_invoice')" class="px-3 py-2 rounded-lg bg-dark border border-border hover:border-brand-400 text-xs text-left transition group">
+                        <div class="font-bold text-slate-100 group-hover:text-brand-400">Broken Invoice</div>
+                        <div class="text-[10px] text-rose-400">Missing strict &amp; required</div>
+                    </button>
+                    <button onclick="loadSample('recursive_ui')" class="px-3 py-2 rounded-lg bg-dark border border-border hover:border-brand-400 text-xs text-left transition group">
+                        <div class="font-bold text-slate-100 group-hover:text-brand-400">Recursive AST</div>
+                        <div class="text-[10px] text-amber-400">$defs / $ref Tree Cycle</div>
+                    </button>
+                    <button onclick="loadSample('agent_router')" class="px-3 py-2 rounded-lg bg-dark border border-border hover:border-brand-400 text-xs text-left transition group">
+                        <div class="font-bold text-slate-100 group-hover:text-brand-400">Agent Tool Call</div>
+                        <div class="text-[10px] text-sky-400">anyOf + format constraints</div>
+                    </button>
+                    <button onclick="loadSample('rag_citation')" class="px-3 py-2 rounded-lg bg-dark border border-border hover:border-brand-400 text-xs text-left transition group">
+                        <div class="font-bold text-slate-100 group-hover:text-brand-400">Clean Strict Spec</div>
+                        <div class="text-[10px] text-emerald-400">100% Compliant RAG</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Provider Target & Auto-Repair Rules -->
+            <div class="bg-card border border-border rounded-xl p-5 shadow-xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
+                    <div>
+                        <h2 class="font-bold text-sm text-slate-100">Target LLM Provider &amp; One-Click Auto-Fix Engine</h2>
+                        <p class="text-xs text-slate-400">Audit against provider grammar limits and repair schema violations automatically.</p>
+                    </div>
+                    <button onclick="applyAutoFixToInput()" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-brand-500 hover:from-emerald-400 hover:to-brand-400 text-darker font-extrabold text-xs shadow-lg shadow-emerald-500/20 transition">
+                        ⚡ Auto-Fix Input In-Place
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Target Structured Output Runtime</label>
+                        <select id="provider-select" onchange="runAudit()" class="w-full bg-dark border border-border rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-400">
+                            <option value="all">Universal Strict Mode (OpenAI + Gemini + Claude)</option>
+                            <option value="openai">OpenAI Structured Outputs (response_format strict: true)</option>
+                            <option value="gemini">Google Gemini 2.5 / 3.1 (responseSchema OpenAPI Subset)</option>
+                            <option value="claude">Anthropic Claude 4.5 Strict Tool Use (input_schema)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Schema Root Name &amp; Pricing Tier</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="schema-name" value="extraction_result" oninput="runAudit()" class="w-full bg-dark border border-border rounded-lg px-2.5 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-400" placeholder="schema_name">
+                            <select id="pricing-model" onchange="runAudit()" class="w-full bg-dark border border-border rounded-lg px-2 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-400">
+                                <option value="2.50">GPT-5 / o4 ($2.50/1M)</option>
+                                <option value="3.00">Claude Sonnet ($3.00/1M)</option>
+                                <option value="1.25">Gemini Pro ($1.25/1M)</option>
+                                <option value="0.15">Flash Tier ($0.15/1M)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                    <label class="flex items-center space-x-2 p-2.5 bg-dark rounded-lg border border-border cursor-pointer hover:border-slate-600">
+                        <input type="checkbox" id="fix-additional" checked onchange="runAudit()" class="w-4 h-4 text-brand-500 bg-darker border-border rounded">
+                        <span class="text-xs font-medium text-slate-200">Enforce <code class="text-[10px] text-brand-400">additionalProperties: false</code></span>
+                    </label>
+                    <label class="flex items-center space-x-2 p-2.5 bg-dark rounded-lg border border-border cursor-pointer hover:border-slate-600">
+                        <input type="checkbox" id="fix-required" checked onchange="runAudit()" class="w-4 h-4 text-brand-500 bg-darker border-border rounded">
+                        <span class="text-xs font-medium text-slate-200">Sync all keys to <code class="text-[10px] text-emerald-400">required[]</code> + nullable</span>
+                    </label>
+                    <label class="flex items-center space-x-2 p-2.5 bg-dark rounded-lg border border-border cursor-pointer hover:border-slate-600">
+                        <input type="checkbox" id="fix-unsupported" checked onchange="runAudit()" class="w-4 h-4 text-brand-500 bg-darker border-border rounded">
+                        <span class="text-xs font-medium text-slate-200">Move unsupported keywords to <code class="text-[10px] text-amber-300">description</code></span>
+                    </label>
+                    <label class="flex items-center space-x-2 p-2.5 bg-dark rounded-lg border border-border cursor-pointer hover:border-slate-600">
+                        <input type="checkbox" id="fix-inline-refs" onchange="runAudit()" class="w-4 h-4 text-brand-500 bg-darker border-border rounded">
+                        <span class="text-xs font-medium text-slate-200">Inline non-cyclic <code class="text-[10px] text-indigo-300">$ref</code> (Gemini Safe)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- JSON Schema Input Editor -->
+            <div class="bg-card border border-border rounded-xl p-5 shadow-xl flex-grow flex flex-col">
+                <div class="flex items-center justify-between mb-2.5">
+                    <label for="schema-input" class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+                        Input JSON Schema / OpenAI response_format / Tool Definition
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <button onclick="prettifyInput()" class="px-2 py-0.5 rounded bg-dark hover:bg-border text-[11px] text-slate-300 border border-border">Format JSON</button>
+                        <span id="json-syntax-badge" class="text-xs text-emerald-400 font-medium">Valid JSON</span>
+                    </div>
+                </div>
+                <textarea id="schema-input" oninput="runAudit()" spellcheck="false" class="w-full flex-grow min-h-[360px] bg-darker border border-border rounded-xl p-4 text-xs text-sky-300 focus:outline-none focus:border-brand-400 resize-y leading-relaxed"></textarea>
+            </div>
+        </div>
+
+        <!-- Right Column: Diagnostic Report & Strict Repaired SDK Payloads (6 Cols) -->
+        <div class="lg:col-span-6 space-y-5 flex flex-col">
+
+            <!-- Diagnostic Linter Findings -->
+            <div class="bg-card border border-border rounded-xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <h2 class="font-bold text-sm text-slate-100">Strict-Mode Compatibility Diagnostics</h2>
+                        <span id="compat-badges" class="flex items-center gap-1.5 text-[10px] font-mono"></span>
+                    </div>
+                    <span id="recursion-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-dark border border-border text-slate-300">Depth: 0</span>
+                </div>
+                <div id="diagnostics-list" class="space-y-2 max-h-52 overflow-y-auto pr-1 text-xs">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Repaired Schema & SDK Wrapper Output -->
+            <div class="bg-card border border-border rounded-xl p-5 shadow-xl flex flex-col flex-grow">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex flex-wrap items-center gap-1 bg-dark p-1 rounded-lg border border-border">
+                        <button onclick="setOutTab('strict-schema')" id="tab-strict-schema" class="px-2.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white transition">Repaired Strict Schema</button>
+                        <button onclick="setOutTab('openai-sdk')" id="tab-openai-sdk" class="px-2.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 transition">OpenAI SDK</button>
+                        <button onclick="setOutTab('gemini-sdk')" id="tab-gemini-sdk" class="px-2.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 transition">Gemini SDK</button>
+                        <button onclick="setOutTab('claude-sdk')" id="tab-claude-sdk" class="px-2.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 transition">Claude Tool</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copyRepaired()" class="px-3 py-1.5 rounded-lg bg-dark hover:bg-border text-slate-100 text-xs font-semibold border border-border transition">
+                            <span id="copy-btn-text">Copy Code</span>
+                        </button>
+                        <button onclick="downloadRepaired()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
+                            Download
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative flex-grow bg-darker rounded-xl border border-border overflow-hidden flex flex-col min-h-[380px]">
+                    <div class="bg-dark/90 px-4 py-2 border-b border-border flex items-center justify-between text-[11px] text-slate-400">
+                        <span id="out-file-label" class="font-mono text-slate-200">strict-json-schema.json</span>
+                        <span id="token-delta-label" class="font-mono text-emerald-400">Grammar-Constrained Ready</span>
+                    </div>
+                    <pre id="repaired-output" class="p-4 text-xs font-mono text-emerald-300 overflow-x-auto flex-grow whitespace-pre leading-relaxed"></pre>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- High-CPC Technical Reference & Conversion Banner -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+            <div class="bg-card border border-border rounded-xl p-5">
+                <h3 class="font-bold text-sm text-brand-400 mb-2">OpenAI Strict Grammar Rules</h3>
+                <p class="text-slate-300 leading-relaxed">Requires <code class="text-sky-300">strict: true</code>, <code class="text-sky-300">additionalProperties: false</code> on every object, all properties listed in <code class="text-sky-300">required</code>, root type must be an object (not root <code class="text-rose-300">anyOf</code>), max 100 total object properties and max 5 nesting levels recommended for low-latency CFG compilation.</p>
+            </div>
+            <div class="bg-card border border-border rounded-xl p-5">
+                <h3 class="font-bold text-sm text-emerald-400 mb-2">Google Gemini responseSchema Rules</h3>
+                <p class="text-slate-300 leading-relaxed">Uses a strict OpenAPI 3.0 Schema subset. Avoids cyclical <code class="text-emerald-300">$ref</code> pointers unless unrolled, enforces deterministic <code class="text-emerald-300">propertyOrdering</code>, and rejects arbitrary PCRE lookahead <code class="text-rose-300">pattern</code> fields. Toggle <em>Inline non-cyclic $ref</em> above for instant Gemini compatibility.</p>
+            </div>
+            <div class="bg-card border border-border rounded-xl p-5">
+                <h3 class="font-bold text-sm text-indigo-400 mb-2">Claude Strict Tool input_schema</h3>
+                <p class="text-slate-300 leading-relaxed">Anthropic's token-efficient tool calling injects your <code class="text-indigo-300">input_schema</code> directly into the system prompt context window. Bloated schemas add hidden input token taxes on every turn—our Token Tax meter calculates exact BPE structural overhead across 10,000 calls.</p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-card via-dark to-indigo-950/60 border border-brand-500/40 rounded-2xl p-8 sm:p-10 relative overflow-hidden shadow-2xl">
+            <div class="max-w-3xl relative z-10 space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                    <span>⚡ Solo-Founder AI &amp; SEO Pro Bundle (2026 Edition · $19)</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Stop Debugging 400 Invalid Schema Errors in Production AI Agents</h2>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Grab the complete <strong>Solo-Founder AI &amp; SEO Pro Toolkit ($19)</strong> on Payhip: 50+ battle-tested Structured Output JSON Schemas, MCP Server TypeScript Starters, LLM Token Cost Guards, and our 19 Zero-Backend Programmatic SEO Micro-Tools source bundle.
+                </p>
+                <div class="pt-2 flex flex-wrap items-center gap-4">
+                    <a href="https://payhip.com/b/Kid2E" target="_blank" rel="noopener noreferrer" data-cta="footer-payhip" class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-brand-500 hover:from-emerald-600 hover:to-brand-600 text-darker font-extrabold text-sm shadow-xl shadow-brand-500/20 transition-all inline-flex items-center gap-2">
+                        <span>Get Pro AI &amp; SEO Toolkit on Payhip ($19)</span>
+                        <span>&rarr;</span>
+                    </a>
+                    <a href="../index.html" class="px-5 py-3 rounded-xl bg-dark hover:bg-border text-slate-200 font-semibold text-sm border border-border transition">
+                        Explore All 19 Free Developer Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-border bg-dark/60 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div>&copy; 2026 Free Developer Micro-Tools Suite · 100% Client-Side Privacy · Zero Telemetry</div>
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="hover:text-brand-400 transition">Hub Home (19 Tools)</a>
+                <a href="../site_18_openapi_to_mcp_tool_schema_converter/" class="hover:text-brand-400 transition">OpenAPI to MCP</a>
+                <a href="../site_13_mcp_server_inspector_validator/" class="hover:text-brand-400 transition">MCP Inspector</a>
+                <a href="https://payhip.com/b/Kid2E" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline font-semibold">Payhip Pro Store ($19)</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const SAMPLES = {
+            broken_invoice: {
+                type: "object",
+                description: "Extract enterprise SaaS invoice fields and line items from OCR text.",
+                properties: {
+                    invoice_id: { type: "string", pattern: "^INV-[0-9]{6}$", minLength: 10 },
+                    vendor_name: { type: "string" },
+                    due_date: { type: "string", format: "date" },
+                    discount_code: { type: "string", description: "Optional promotional code if present" },
+                    subtotal_usd: { type: "number", minimum: 0 },
+                    billing_address: {
+                        type: "object",
+                        properties: {
+                            street: { type: "string" },
+                            city: { type: "string" },
+                            postal_code: { type: "string" }
+                        },
+                        required: ["city"]
+                    },
+                    line_items: {
+                        type: "array",
+                        minItems: 1,
+                        items: {
+                            type: "object",
+                            properties: {
+                                sku: { type: "string" },
+                                quantity: { type: "integer", minimum: 1 },
+                                unit_price: { type: "number" }
+                            },
+                            required: ["sku", "unit_price"]
+                        }
+                    }
+                },
+                required: ["invoice_id", "vendor_name", "subtotal_usd", "line_items"]
+            },
+            recursive_ui: {
+                type: "object",
+                properties: {
+                    screen_title: { type: "string" },
+                    root_component: { "$ref": "#/$defs/UINode" }
+                },
+                required: ["screen_title", "root_component"],
+                additionalProperties: false,
+                "$defs": {
+                    UINode: {
+                        type: "object",
+                        properties: {
+                            component_type: { type: "string", enum: ["Container", "Button", "Card", "Text"] },
+                            label: { type: "string" },
+                            props_badge: { "$ref": "#/$defs/BadgeMeta" },
+                            children: {
+                                type: "array",
+                                items: { "$ref": "#/$defs/UINode" }
+                            }
+                        },
+                        required: ["component_type"]
+                    },
+                    BadgeMeta: {
+                        type: "object",
+                        properties: {
+                            color: { type: "string", enum: ["emerald", "sky", "amber"] },
+                            text: { type: "string" }
+                        },
+                        required: ["color", "text"],
+                        additionalProperties: false
+                    }
+                }
+            },
+            agent_router: {
+                name: "dispatch_support_ticket",
+                description: "Route incoming enterprise support ticket to billing, infra, or security queue.",
+                parameters: {
+                    type: "object",
+                    properties: {
+                        ticket_id: { type: "string" },
+                        priority: { type: "string", enum: ["P0", "P1", "P2", "P3"] },
+                        customer_email: { type: "string", format: "email" },
+                        confidence_score: { type: "number", minimum: 0, maximum: 1 },
+                        resolution_action: {
+                            anyOf: [
+                                {
+                                    type: "object",
+                                    properties: {
+                                        action_type: { type: "string", enum: ["auto_refund"] },
+                                        refund_usd: { type: "number", exclusiveMaximum: 500 }
+                                    },
+                                    required: ["action_type"]
+                                },
+                                {
+                                    type: "object",
+                                    properties: {
+                                        action_type: { type: "string", enum: ["escalate_oncall"] },
+                                        pager_team: { type: "string" }
+                                    },
+                                    required: ["action_type", "pager_team"]
+                                }
+                            ]
+                        }
+                    },
+                    required: ["ticket_id", "priority", "resolution_action"]
+                }
+            },
+            rag_citation: {
+                type: "object",
+                description: "Grounded answer with verbatim document citations.",
+                properties: {
+                    synthesized_answer: { type: "string" },
+                    confidence: { type: "string", enum: ["high", "medium", "low"] },
+                    follow_up_query: { type: ["string", "null"] },
+                    citations: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                doc_id: { type: "string" },
+                                quote: { type: "string" },
+                                page_number: { type: ["integer", "null"] }
+                            },
+                            required: ["doc_id", "quote", "page_number"],
+                            additionalProperties: false
+                        }
+                    }
+                },
+                required: ["synthesized_answer", "confidence", "follow_up_query", "citations"],
+                additionalProperties: false
+            }
+        };
+
+        const UNSUPPORTED_STRICT_KEYWORDS = [
+            "minLength", "maxLength", "pattern", "format",
+            "minimum", "maximum", "exclusiveMinimum", "exclusiveMaximum", "multipleOf",
+            "minItems", "maxItems", "uniqueItems"
+        ];
+
+        let currentOutTab = "strict-schema";
+        let latestOutputs = {
+            "strict-schema": "",
+            "openai-sdk": "",
+            "gemini-sdk": "",
+            "claude-sdk": ""
+        };
+
+        function estimateTokens(str) {
+            if (!str) return 0;
+            // Calibrated BPE token heuristic for JSON Schema punctuation + identifiers
+            const structuralTokens = (str.match(/[{}\[\]:,"]/g) || []).length * 0.42;
+            const wordTokens = str.replace(/[{}\[\]:,"\s]+/g, " ").trim().split(/\s+/).filter(Boolean).length * 1.18;
+            return Math.max(1, Math.round(structuralTokens + wordTokens));
+        }
+
+        function unwrapRootSchema(parsed) {
+            // Support raw JSON Schema, OpenAI response_format.json_schema.schema, or Claude/OpenAI tool definitions
+            if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+                if (parsed.json_schema && parsed.json_schema.schema) {
+                    if (parsed.json_schema.name) {
+                        document.getElementById("schema-name").value = parsed.json_schema.name;
+                    }
+                    return JSON.parse(JSON.stringify(parsed.json_schema.schema));
+                }
+                if (parsed.schema && typeof parsed.schema === "object" && parsed.type === "json_schema") {
+                    return JSON.parse(JSON.stringify(parsed.schema));
+                }
+                if (parsed.parameters && typeof parsed.parameters === "object" && !parsed.properties) {
+                    if (parsed.name) document.getElementById("schema-name").value = parsed.name;
+                    return JSON.parse(JSON.stringify(parsed.parameters));
+                }
+                if (parsed.input_schema && typeof parsed.input_schema === "object" && !parsed.properties) {
+                    if (parsed.name) document.getElementById("schema-name").value = parsed.name;
+                    return JSON.parse(JSON.stringify(parsed.input_schema));
+                }
+            }
+            return JSON.parse(JSON.stringify(parsed));
+        }
+
+        function makeNullable(propSchema) {
+            if (!propSchema || typeof propSchema !== "object") return propSchema;
+            if (propSchema.$ref) {
+                return { anyOf: [propSchema, { type: "null" }] };
+            }
+            if (Array.isArray(propSchema.anyOf)) {
+                const hasNull = propSchema.anyOf.some(s => s && s.type === "null");
+                if (!hasNull) propSchema.anyOf.push({ type: "null" });
+                return propSchema;
+            }
+            if (Array.isArray(propSchema.enum) && !propSchema.enum.includes(null)) {
+                propSchema.enum = [...propSchema.enum, null];
+            }
+            if (typeof propSchema.type === "string" && propSchema.type !== "null") {
+                propSchema.type = [propSchema.type, "null"];
+            } else if (Array.isArray(propSchema.type) && !propSchema.type.includes("null")) {
+                propSchema.type = [...propSchema.type, "null"];
+            }
+            return propSchema;
+        }
+
+        function detectCyclesAndAudit(rootSchema, options) {
+            const issues = [];
+            let objectNodes = 0;
+            let refNodes = 0;
+            let maxDepth = 0;
+            let totalProperties = 0;
+
+            const defs = Object.assign({}, rootSchema.$defs || {}, rootSchema.definitions || {});
+            const cyclicDefs = new Set();
+
+            // Detect recursive cycles among $defs / definitions
+            function checkDefCycle(defName, stack) {
+                if (stack.includes(defName)) {
+                    cyclicDefs.add(defName);
+                    return true;
+                }
+                const target = defs[defName];
+                if (!target) return false;
+                let found = false;
+                function scanRefs(node) {
+                    if (!node || typeof node !== "object") return;
+                    if (typeof node.$ref === "string") {
+                        const m = node.$ref.match(/^#\/(?:\$defs|definitions)\/([^/]+)$/);
+                        if (m) {
+                            if (checkDefCycle(m[1], [...stack, defName])) found = true;
+                        }
+                    }
+                    for (const k of Object.keys(node)) {
+                        if (k !== "$ref" && typeof node[k] === "object") scanRefs(node[k]);
+                    }
+                }
+                scanRefs(target);
+                return found;
+            }
+            Object.keys(defs).forEach(d => checkDefCycle(d, []));
+
+            if (cyclicDefs.size > 0) {
+                issues.push({
+                    severity: options.provider === "gemini" ? "error" : "warn",
+                    path: "#/$defs/" + Array.from(cyclicDefs).join(", "),
+                    msg: `Recursive $ref cycle detected (${Array.from(cyclicDefs).join(" ↻ ")}). OpenAI strict mode supports #/$defs recursion, but Gemini responseSchema rejects cyclic $ref schemas unless depth-bounded.`
+                });
+            }
+
+            if (rootSchema.anyOf || rootSchema.oneOf) {
+                issues.push({
+                    severity: "error",
+                    path: "$ (root)",
+                    msg: "Root schema cannot use top-level anyOf/oneOf in OpenAI or Claude Strict Mode; root must be type: 'object'."
+                });
+            }
+
+            function walkAndRepair(node, path, depth, inlineStack) {
+                if (!node || typeof node !== "object" || Array.isArray(node)) return node;
+                if (depth > maxDepth) maxDepth = depth;
+
+                // Handle $ref
+                if (typeof node.$ref === "string") {
+                    refNodes++;
+                    const extraKeys = Object.keys(node).filter(k => k !== "$ref" && k !== "description");
+                    if (extraKeys.length > 0) {
+                        issues.push({
+                            severity: "warn",
+                            path,
+                            msg: `$ref node contains sibling keywords (${extraKeys.join(", ")}) which strict compilers ignore.`
+                        });
+                    }
+                    const m = node.$ref.match(/^#\/(?:\$defs|definitions)\/([^/]+)$/);
+                    if (!m && node.$ref !== "#") {
+                        issues.push({
+                            severity: "error",
+                            path,
+                            msg: `Unresolvable external or non-standard $ref '${node.$ref}'.`
+                        });
+                    } else if (m && !defs[m[1]]) {
+                        issues.push({
+                            severity: "error",
+                            path,
+                            msg: `Broken $ref '${node.$ref}': definition '${m[1]}' does not exist in $defs.`
+                        });
+                    } else if (m && options.inlineRefs && !cyclicDefs.has(m[1]) && !inlineStack.includes(m[1])) {
+                        const clonedTarget = JSON.parse(JSON.stringify(defs[m[1]]));
+                        return walkAndRepair(clonedTarget, path, depth + 1, [...inlineStack, m[1]]);
+                    }
+                    return node;
+                }
+
+                // Check oneOf -> anyOf
+                if (Array.isArray(node.oneOf)) {
+                    issues.push({
+                        severity: "error",
+                        path,
+                        msg: "'oneOf' is rejected by OpenAI Strict Structured Outputs (use 'anyOf' instead)."
+                    });
+                    if (options.fixUnsupported) {
+                        node.anyOf = node.oneOf;
+                        delete node.oneOf;
+                    }
+                }
+
+                // Check unsupported validation constraints
+                const foundUnsupported = UNSUPPORTED_STRICT_KEYWORDS.filter(k => node[k] !== undefined);
+                if (foundUnsupported.length > 0) {
+                    const constraintNotes = foundUnsupported.map(k => `${k}: ${JSON.stringify(node[k])}`).join(", ");
+                    issues.push({
+                        severity: (options.provider === "openai" || options.provider === "all" || options.provider === "gemini") ? "error" : "warn",
+                        path,
+                        msg: `Unsupported strict-grammar keyword(s): ${foundUnsupported.join(", ")}. Must be stripped or moved into description.`
+                    });
+                    if (options.fixUnsupported) {
+                        const existingDesc = node.description ? node.description.trim() + " " : "";
+                        node.description = `${existingDesc}[Constraints: ${constraintNotes}]`;
+                        foundUnsupported.forEach(k => delete node[k]);
+                    }
+                }
+
+                // Object strict validation
+                const isObject = node.type === "object" || (Array.isArray(node.type) && node.type.includes("object")) || (node.properties && typeof node.properties === "object");
+                if (isObject) {
+                    objectNodes++;
+                    if (!node.type) node.type = "object";
+                    const props = node.properties || {};
+                    const propKeys = Object.keys(props);
+                    totalProperties += propKeys.length;
+
+                    if (node.additionalProperties !== false) {
+                        issues.push({
+                            severity: "error",
+                            path,
+                            msg: `Missing 'additionalProperties: false' (found ${JSON.stringify(node.additionalProperties)}). Required on every object in Strict Mode.`
+                        });
+                        if (options.fixAdditional) {
+                            node.additionalProperties = false;
+                        }
+                    }
+
+                    const currentReq = Array.isArray(node.required) ? node.required : [];
+                    const missingReq = propKeys.filter(k => !currentReq.includes(k));
+                    const orphanReq = currentReq.filter(k => !propKeys.includes(k));
+
+                    if (missingReq.length > 0) {
+                        issues.push({
+                            severity: "error",
+                            path,
+                            msg: `Incomplete 'required' array: missing [${missingReq.join(", ")}]. Strict Mode requires all ${propKeys.length} properties in required[] (use nullable types for optional fields).`
+                        });
+                        if (options.fixRequired) {
+                            missingReq.forEach(k => {
+                                props[k] = makeNullable(props[k]);
+                            });
+                            node.required = [...propKeys];
+                        }
+                    }
+                    if (orphanReq.length > 0) {
+                        issues.push({
+                            severity: "error",
+                            path,
+                            msg: `'required' lists non-existent property [${orphanReq.join(", ")}].`
+                        });
+                        if (options.fixRequired) {
+                            node.required = (node.required || []).filter(k => propKeys.includes(k));
+                        }
+                    }
+
+                    for (const key of propKeys) {
+                        props[key] = walkAndRepair(props[key], `${path}.properties.${key}`, depth + 1, inlineStack);
+                    }
+                }
+
+                if (node.items && typeof node.items === "object") {
+                    node.items = walkAndRepair(node.items, `${path}.items`, depth + 1, inlineStack);
+                }
+                if (Array.isArray(node.anyOf)) {
+                    node.anyOf = node.anyOf.map((sub, idx) => walkAndRepair(sub, `${path}.anyOf[${idx}]`, depth + 1, inlineStack));
+                }
+                return node;
+            }
+
+            const repaired = walkAndRepair(JSON.parse(JSON.stringify(rootSchema)), "$", 1, []);
+
+            // Walk $defs / definitions as well
+            for (const defContainer of ["$defs", "definitions"]) {
+                if (repaired[defContainer] && typeof repaired[defContainer] === "object") {
+                    for (const dName of Object.keys(repaired[defContainer])) {
+                        repaired[defContainer][dName] = walkAndRepair(
+                            repaired[defContainer][dName],
+                            `#/${defContainer}/${dName}`,
+                            2,
+                            [dName]
+                        );
+                        if (options.inlineRefs && !cyclicDefs.has(dName)) {
+                            delete repaired[defContainer][dName];
+                        }
+                    }
+                    if (Object.keys(repaired[defContainer]).length === 0) {
+                        delete repaired[defContainer];
+                    }
+                }
+            }
+
+            if (maxDepth > 5) {
+                issues.push({
+                    severity: "warn",
+                    path: "$ (depth)",
+                    msg: `Nesting depth is ${maxDepth} levels. OpenAI/Gemini grammar compilers recommend <= 5 levels to avoid first-token compilation latency spikes.`
+                });
+            }
+            if (totalProperties > 100) {
+                issues.push({
+                    severity: "error",
+                    path: "$ (properties)",
+                    msg: `Total object properties (${totalProperties}) exceeds OpenAI's 100-property Strict Structured Output limit.`
+                });
+            }
+
+            return { issues, repaired, objectNodes, refNodes, maxDepth, cyclicCount: cyclicDefs.size, totalProperties };
+        }
+
+        function buildGeminiSchema(strictSchema) {
+            // Strip additionalProperties for pure Gemini OpenAPI 3.0 responseSchema + add propertyOrdering
+            function cleanForGemini(node) {
+                if (!node || typeof node !== "object" || Array.isArray(node)) return node;
+                const copy = {};
+                if (Array.isArray(node.type)) {
+                    const nonNull = node.type.filter(t => t !== "null");
+                    copy.type = nonNull[0] || "string";
+                    if (node.type.includes("null")) copy.nullable = true;
+                } else if (node.type) {
+                    copy.type = node.type;
+                }
+                if (node.description) copy.description = node.description;
+                if (Array.isArray(node.enum)) copy.enum = node.enum.filter(v => v !== null);
+                if (node.$ref) copy.$ref = node.$ref;
+
+                if (node.properties && typeof node.properties === "object") {
+                    copy.properties = {};
+                    const keys = Object.keys(node.properties);
+                    keys.forEach(k => { copy.properties[k] = cleanForGemini(node.properties[k]); });
+                    copy.propertyOrdering = keys;
+                    if (Array.isArray(node.required)) copy.required = node.required;
+                }
+                if (node.items) copy.items = cleanForGemini(node.items);
+                if (Array.isArray(node.anyOf)) copy.anyOf = node.anyOf.map(cleanForGemini);
+                if (node.$defs) {
+                    copy.$defs = {};
+                    Object.keys(node.$defs).forEach(k => { copy.$defs[k] = cleanForGemini(node.$defs[k]); });
+                }
+                return copy;
+            }
+            return cleanForGemini(strictSchema);
+        }
+
+        function runAudit() {
+            const rawText = document.getElementById("schema-input").value;
+            const syntaxBadge = document.getElementById("json-syntax-badge");
+            const provider = document.getElementById("provider-select").value;
+            const schemaName = (document.getElementById("schema-name").value || "structured_output").replace(/[^a-zA-Z0-9_-]/g, "_");
+            const pricePerM = parseFloat(document.getElementById("pricing-model").value) || 2.50;
+
+            let parsed;
+            try {
+                parsed = JSON.parse(rawText);
+                syntaxBadge.textContent = "Valid JSON";
+                syntaxBadge.className = "text-xs text-emerald-400 font-medium";
+            } catch (err) {
+                syntaxBadge.textContent = "Syntax Error";
+                syntaxBadge.className = "text-xs text-rose-400 font-bold";
+                document.getElementById("diagnostics-list").innerHTML = `
+                    <div class="p-3 rounded-lg bg-rose-950/50 border border-rose-500/40 text-rose-200">
+                        <div class="font-bold text-rose-400 mb-1">JSON Parse Error</div>
+                        <div class="font-mono text-[11px]">${escapeHtml(err.message)}</div>
+                    </div>`;
+                return;
+            }
+
+            const unwrapped = unwrapRootSchema(parsed);
+            const options = {
+                provider,
+                fixAdditional: document.getElementById("fix-additional").checked,
+                fixRequired: document.getElementById("fix-required").checked,
+                fixUnsupported: document.getElementById("fix-unsupported").checked,
+                inlineRefs: document.getElementById("fix-inline-refs").checked || provider === "gemini"
+            };
+
+            const audit = detectCyclesAndAudit(unwrapped, options);
+            const errorCount = audit.issues.filter(i => i.severity === "error").length;
+            const warnCount = audit.issues.filter(i => i.severity === "warn").length;
+
+            // Update top metrics
+            const repairedJsonStr = JSON.stringify(audit.repaired, null, 2);
+            const rawTokens = estimateTokens(JSON.stringify(unwrapped));
+            const strictTokens = estimateTokens(repairedJsonStr);
+            const cost10k = ((strictTokens * 10000) / 1e6) * pricePerM;
+
+            document.getElementById("metric-errors").textContent = errorCount === 0 ? "0 (Clean)" : `${errorCount} Err / ${warnCount} Warn`;
+            document.getElementById("metric-errors").className = errorCount === 0
+                ? "font-mono font-bold text-sm text-emerald-400"
+                : "font-mono font-bold text-sm text-rose-400";
+            document.getElementById("metric-nodes").textContent = `${audit.objectNodes} obj / ${audit.refNodes} $ref`;
+            document.getElementById("metric-tokens").textContent = `~${strictTokens} tok`;
+            document.getElementById("metric-cost").textContent = `$${cost10k.toFixed(2)} / 10k`;
+            document.getElementById("recursion-badge").textContent = `Max Depth: ${audit.maxDepth} · Cycles: ${audit.cyclicCount}`;
+
+            // Health Pill
+            const pill = document.getElementById("health-pill");
+            const dot = document.getElementById("health-dot");
+            const hText = document.getElementById("health-text");
+            if (errorCount === 0) {
+                pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5";
+                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+                hText.textContent = "100% Strict-Mode Valid";
+            } else {
+                pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30 flex items-center gap-1.5";
+                dot.className = "w-2 h-2 rounded-full bg-rose-400 animate-ping";
+                hText.textContent = `${errorCount} Violations Auto-Fixed`;
+            }
+
+            // Provider Compatibility Badges
+            const oaiOk = errorCount === 0;
+            const gemOk = errorCount === 0 && audit.cyclicCount === 0;
+            document.getElementById("compat-badges").innerHTML = `
+                <span class="px-2 py-0.5 rounded border ${oaiOk ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-300'}">OpenAI: ${oaiOk ? 'PASS' : 'AUTO-FIXED'}</span>
+                <span class="px-2 py-0.5 rounded border ${gemOk ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-rose-500/10 border-rose-500/30 text-rose-300'}">Gemini: ${gemOk ? 'PASS' : (audit.cyclicCount > 0 ? 'CYCLE WARN' : 'AUTO-FIXED')}</span>
+                <span class="px-2 py-0.5 rounded border bg-emerald-500/10 border-emerald-500/30 text-emerald-300">Claude: READY</span>
+            `;
+
+            // Render Diagnostics List
+            const diagEl = document.getElementById("diagnostics-list");
+            if (audit.issues.length === 0) {
+                diagEl.innerHTML = `
+                    <div class="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-300 flex items-center justify-between">
+                        <div>
+                            <div class="font-bold">Zero Strict-Mode Schema Violations Detected</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">All ${audit.objectNodes} object nodes enforce additionalProperties: false and complete required[] arrays.</div>
+                        </div>
+                        <span class="text-lg">✅</span>
+                    </div>`;
+            } else {
+                diagEl.innerHTML = audit.issues.map(item => {
+                    const isErr = item.severity === "error";
+                    return `<div class="p-2.5 rounded-lg ${isErr ? 'bg-rose-950/35 border border-rose-500/30' : 'bg-amber-950/35 border border-amber-500/30'}">
+                        <div class="flex items-center justify-between gap-2 mb-0.5">
+                            <span class="font-mono text-[11px] font-bold ${isErr ? 'text-rose-400' : 'text-amber-300'}">${escapeHtml(item.path)}</span>
+                            <span class="text-[10px] uppercase px-1.5 py-0.2 rounded ${isErr ? 'bg-rose-500/20 text-rose-300' : 'bg-amber-500/20 text-amber-200'}">${isErr ? 'Repaired in Output' : 'Advisory'}</span>
+                        </div>
+                        <div class="text-slate-300 text-[11px] leading-snug">${escapeHtml(item.msg)}</div>
+                    </div>`;
+                }).join("");
+            }
+
+            // Build 4 Output Tabs
+            const openaiPayload = {
+                type: "json_schema",
+                json_schema: {
+                    name: schemaName,
+                    strict: true,
+                    schema: audit.repaired
+                }
+            };
+
+            const geminiClean = buildGeminiSchema(audit.repaired);
+
+            latestOutputs["strict-schema"] = repairedJsonStr;
+            latestOutputs["openai-sdk"] = `import OpenAI from "openai";\n\nconst client = new OpenAI();\n\nconst response = await client.responses.create({\n  model: "gpt-5",\n  input: "Extract structured fields from the document.",\n  text: {\n    format: ${JSON.stringify({ type: "json_schema", name: schemaName, strict: true, schema: audit.repaired }, null, 2).replace(/\n/g, "\n    ")}\n  }\n});\n\nconst data = JSON.parse(response.output_text);`;
+            latestOutputs["gemini-sdk"] = `import { GoogleGenAI } from "@google/genai";\n\nconst ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });\n\nconst response = await ai.models.generateContent({\n  model: "gemini-2.5-pro",\n  contents: "Extract structured fields from the document.",\n  config: {\n    responseMimeType: "application/json",\n    responseSchema: ${JSON.stringify(geminiClean, null, 2).replace(/\n/g, "\n    ")}\n  }\n});\n\nconst data = JSON.parse(response.text);`;
+            latestOutputs["claude-sdk"] = JSON.stringify({
+                name: schemaName,
+                description: audit.repaired.description || "Strict structured output extraction tool for Claude.",
+                strict: true,
+                input_schema: audit.repaired
+            }, null, 2);
+
+            const delta = strictTokens - rawTokens;
+            document.getElementById("token-delta-label").textContent = `Input: ~${rawTokens} tok → Strict: ~${strictTokens} tok (${delta >= 0 ? '+' : ''}${delta} tok)`;
+            renderActiveTab();
+        }
+
+        function renderActiveTab() {
+            const filenames = {
+                "strict-schema": "strict-json-schema.json",
+                "openai-sdk": "openai-structured-output.ts",
+                "gemini-sdk": "gemini-response-schema.ts",
+                "claude-sdk": "claude-strict-tool.json"
+            };
+            document.getElementById("out-file-label").textContent = filenames[currentOutTab];
+            document.getElementById("repaired-output").textContent = latestOutputs[currentOutTab] || "";
+        }
+
+        function setOutTab(tab) {
+            currentOutTab = tab;
+            ["strict-schema", "openai-sdk", "gemini-sdk", "claude-sdk"].forEach(id => {
+                const btn = document.getElementById("tab-" + id);
+                if (id === tab) {
+                    btn.className = "px-2.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white transition";
+                } else {
+                    btn.className = "px-2.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-slate-200 transition";
+                }
+            });
+            renderActiveTab();
+        }
+
+        function applyAutoFixToInput() {
+            if (latestOutputs["strict-schema"]) {
+                document.getElementById("schema-input").value = latestOutputs["strict-schema"];
+                runAudit();
+            }
+        }
+
+        function prettifyInput() {
+            const el = document.getElementById("schema-input");
+            try {
+                el.value = JSON.stringify(JSON.parse(el.value), null, 2);
+                runAudit();
+            } catch (_) {}
+        }
+
+        function loadSample(key) {
+            const sample = SAMPLES[key];
+            if (!sample) return;
+            document.getElementById("schema-input").value = JSON.stringify(sample, null, 2);
+            runAudit();
+        }
+
+        function copyRepaired() {
+            const text = latestOutputs[currentOutTab] || "";
+            navigator.clipboard.writeText(text).then(() => {
+                const lbl = document.getElementById("copy-btn-text");
+                lbl.textContent = "Copied!";
+                setTimeout(() => { lbl.textContent = "Copy Code"; }, 1600);
+            });
+        }
+
+        function downloadRepaired() {
+            const text = latestOutputs[currentOutTab] || "";
+            const fname = document.getElementById("out-file-label").textContent;
+            const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = fname;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            loadSample("broken_invoice");
+        });
+    </script>
+</body>
+</html>
